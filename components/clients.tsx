@@ -15,19 +15,19 @@ import {
 
 const CURRENT_CLIENTS = [
   { name: "AR-ZAP", icon: BrushCleaning },
-  { name: "Agroganaderos Don Jose", icon: Wheat },
+  { name: "Agroganaderos Don Jose SRL", icon: Wheat },
   { name: "Daniel Faisal SA", icon: Car },
-  { name: "Diaz Servicios", icon: BrushCleaning },
+  { name: "Diaz Servicios SRL", icon: BrushCleaning },
   { name: "Don Mariano SRL", icon: ShoppingBag },
-  { name: "Los 4 Cardos", icon: GraduationCap },
-  { name: "Norli", icon: DoorClosed },
-  { name: "Mehring", icon: RockingChair },
-  { name: "THéZ", icon: Pipette },
+  { name: "Los 4 Cardos SAS", icon: GraduationCap },
+  { name: "Norli Amoblamientos", icon: DoorClosed },
+  { name: "Sucesores de Gerardo R. Mehring SA", icon: RockingChair },
+  { name: "THéZ SRL", icon: Pipette },
+  { name: "Asociación Cooperadora Policial, Esperanza, Santa Fe", icon: Siren },
 ];
 
 const PAST_CLIENTS = [
-  { name: "Lipomize", icon: Atom },
-  { name: "Asociacion Cooperadora Policial, Esperanza, Santa Fe", icon: Siren },
+  { name: "Lipomize SRL", icon: Atom },
   { name: "Colegio Traductores, Provincia de Santa Fe", icon: Globe },
   { name: "Sattler", icon: CarFront },
 ];
@@ -43,9 +43,9 @@ function ClientCard({
 }) {
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-all hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 ${className}`}
+      className={`group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-all hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 ${className}`}
     >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
         <Icon className="h-5 w-5" />
       </div>
       <span className="text-sm font-medium text-foreground">{name}</span>
