@@ -1,0 +1,111 @@
+import {
+  Wheat,
+  ShoppingBag,
+  GraduationCap,
+  BrushCleaning,
+  CarFront,
+  Car,
+  RockingChair,
+  Pipette,
+  Atom,
+  DoorClosed,
+  Siren,
+  Globe,
+} from "lucide-react";
+
+const CURRENT_CLIENTS = [
+  { name: "AR-ZAP", icon: BrushCleaning },
+  { name: "Agroganaderos Don Jose", icon: Wheat },
+  { name: "Daniel Faisal SA", icon: Car },
+  { name: "Diaz Servicios", icon: BrushCleaning },
+  { name: "Don Mariano SRL", icon: ShoppingBag },
+  { name: "Los 4 Cardos", icon: GraduationCap },
+  { name: "Norli", icon: DoorClosed },
+  { name: "Mehring", icon: RockingChair },
+  { name: "THéZ", icon: Pipette },
+];
+
+const PAST_CLIENTS = [
+  { name: "Lipomize", icon: Atom },
+  { name: "Asociacion Cooperadora Policial, Esperanza, Santa Fe", icon: Siren },
+  { name: "Colegio Traductores, Provincia de Santa Fe", icon: Globe },
+  { name: "Sattler", icon: CarFront },
+];
+
+function ClientCard({
+  name,
+  icon: Icon,
+  className = "",
+}: {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-all hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 ${className}`}
+    >
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+        <Icon className="h-5 w-5" />
+      </div>
+      <span className="text-sm font-medium text-foreground">{name}</span>
+    </div>
+  );
+}
+
+export function Clients() {
+  return (
+    <section id="clientes" className="bg-background py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="text-center">
+          <span className="text-sm font-medium tracking-wide text-accent uppercase">
+            Quienes confian en nosotros
+          </span>
+          <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
+            Clientes que nos eligen
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+            Trabajamos con personas particulares, profesionales, monotributistas
+            y empresas de distintos rubros, construyendo relaciones de largo
+            plazo basadas en la confianza y el compromiso.
+          </p>
+        </div>
+
+        {/* Current clients */}
+        <div className="mt-16">
+          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+            Clientes actuales
+          </h3>
+
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-6 ">
+            {CURRENT_CLIENTS.map((client) => (
+              <ClientCard
+                key={client.name}
+                name={client.name}
+                icon={client.icon}
+                className="lg:w-64 lg:shrink-0"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Past clients */}
+        <div className="mt-14">
+          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+            Clientes anteriores
+          </h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-6 ">
+            {PAST_CLIENTS.map((client) => (
+              <ClientCard
+                key={client.name}
+                name={client.name}
+                icon={client.icon}
+                className="lg:w-64 lg:shrink-0"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
