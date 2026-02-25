@@ -36,7 +36,7 @@ export function Contact() {
     <section id="contacto" className="bg-secondary py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <span className="text-sm font-medium tracking-wide text-accent uppercase">
+          <span className="text-sm font-medium tracking-wide text-primary uppercase">
             Contacto
           </span>
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">

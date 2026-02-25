@@ -20,7 +20,7 @@ export function About() {
         <div className="flex flex-row justify-between items-center gap-16 lg:grid-cols-2">
           {/* Text */}
           <div>
-            <span className="text-sm font-medium tracking-wide text-accent uppercase">
+            <span className="text-sm font-medium tracking-wide text-primary uppercase">
               Sobre nosotros
             </span>
             <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">

@@ -15,8 +15,6 @@ export function Hero() {
         alt="Caduceo"
         width={650}
         height={650}
-        fetchPriority="high"
-        loading="eager"
       />
       {/* Decorative grid */}
       <div

@@ -98,7 +98,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/40">
+      <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/70">
         {"SB Estudio Contable. Todos los derechos reservados. © 2026"}
       </div>
     </footer>
