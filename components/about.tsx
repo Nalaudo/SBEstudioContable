@@ -51,7 +51,7 @@ export function About() {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="mt-3 font-serif text-3xl text-foreground md:text-2xl">
-                  Nuestro director
+                  Profesional a cargo
                 </h3>
                 <p className="mt-1">
                   El estudio está dirigido por Sergio Luis Betique, Contador

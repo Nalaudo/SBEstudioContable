@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "eslint ."
   },
+  "browserslist": [
+    "last 3 versions",
+    "not dead",
+    "not ie 11"
+  ],
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@vercel/analytics": "1.6.1",
