@@ -1,0 +1,8 @@
+//robots.txt
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Recomendado: apunta al sitemap (usa URL absoluta)
+Sitemap: https://sbestudio.com.ar/sitemap.xml

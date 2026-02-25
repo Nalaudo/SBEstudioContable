@@ -32,16 +32,8 @@ const INFO_ITEMS = [
 ];
 
 export function Contact() {
-  const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
   return (
-    <section id="contacto" className="bg-background py-24">
+    <section id="contacto" className="bg-secondary py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <span className="text-sm font-medium tracking-wide text-accent uppercase">

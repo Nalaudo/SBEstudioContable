@@ -6,6 +6,13 @@ import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import { WhatsappFab } from "@/components/whatsapp-fab";
 import { Clients } from "@/components/clients";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "./",
+  },
+};
 
 export default function Home() {
   return (

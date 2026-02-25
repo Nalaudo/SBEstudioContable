@@ -83,7 +83,7 @@ export function Clients() {
                 key={client.name}
                 name={client.name}
                 icon={client.icon}
-                className="lg:w-64 lg:shrink-0"
+                className="lg:w-64 lg:shrink-0 h-22.5"
               />
             ))}
           </div>
@@ -100,7 +100,7 @@ export function Clients() {
                 key={client.name}
                 name={client.name}
                 icon={client.icon}
-                className="lg:w-64 lg:shrink-0"
+                className="lg:w-64 lg:shrink-0 h-22.5"
               />
             ))}
           </div>

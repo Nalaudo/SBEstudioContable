@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "#inicio", label: "Inicio" },
   { href: "#servicios", label: "Servicios" },
   { href: "#nosotros", label: "Nosotros" },
+  { href: "#clientes", label: "Clientes" },
   { href: "#contacto", label: "Contacto" },
 ];
 
@@ -52,7 +53,7 @@ export function Navbar() {
         <div className="md:w-1/3 flex justify-end">
           <Button asChild className="hidden md:inline-flex" size="sm">
             <Link
-              href="https://wa.me/5493424000000?text=Hola%20SB%20Estudio%20Contable%2C%20quiero%20consultar%20sobre%20sus%20servicios."
+              href="https://wa.me/5493424080329?text=Hola%20SB%20Estudio%20Contable%2C%20quiero%20consultar%20sobre%20sus%20servicios."
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -89,7 +90,7 @@ export function Navbar() {
           </ul>
           <Button asChild className="mt-4 w-full" size="sm">
             <Link
-              href="https://wa.me/5493424000000?text=Hola%20SB%20Estudio%20Contable%2C%20quiero%20consultar%20sobre%20sus%20servicios."
+              href="https://wa.me/5493424080329?text=Hola%20SB%20Estudio%20Contable%2C%20quiero%20consultar%20sobre%20sus%20servicios."
               target="_blank"
               rel="noopener noreferrer"
             >

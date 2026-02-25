@@ -17,7 +17,7 @@ export function About() {
   return (
     <section id="nosotros" className="bg-secondary py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
+        <div className="flex flex-row justify-between items-center gap-16 lg:grid-cols-2">
           {/* Text */}
           <div>
             <span className="text-sm font-medium tracking-wide text-accent uppercase">
@@ -26,22 +26,48 @@ export function About() {
             <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
               Tu estudio contable de confianza en Santa Fe
             </h2>
-            <p className="mt-6 leading-relaxed text-muted-foreground text-justify">
-              SB Estudio Contable es un espacio profesional dedicado a brindar
-              asesoramiento contable, laboral, impositivo y societario con una
-              mirada estratégica, ética y orientada a la toma de decisiones.
-              Desde Santa Fe, acompañamos a empresas, emprendedores,
-              profesionales y clientes extranjeros que necesitan claridad,
-              previsibilidad y comunicación transparente en cada proceso. El
-              estudio es dirigido por Sergio Luis Betique, Contador Público
-              Nacional, matriculado en el Consejo Profesional de Ciencias
-              Económicas de la Provincia de Santa Fe - Cámara Primera, desde
-              mayo de 1998. Con más de dos décadas de trayectoria, Sergio cuenta
-              con una sólida experiencia en el acompañamiento integral de pymes
-              y profesionales, integrando normativa vigente, comparativas
-              interprovinciales y automatización de procesos para ofrecer
-              soluciones precisas y eficientes.
-            </p>
+
+            <div className="flex flex-col gap-6 mt-6">
+              <div className="flex flex-col gap-2">
+                <h3 className="mt-3 font-serif text-3xl text-foreground md:text-2xl">
+                  ¿Quiénes somos?
+                </h3>
+                <p className="mt-1">
+                  SB Estudio Contable es tu estudio contable de confianza en
+                  Santa Fe.
+                </p>
+                <p>
+                  Somos un espacio profesional dedicado a brindar asesoramiento
+                  contable, laboral, impositivo y societario con una mirada
+                  estratégica, ética y orientada a la toma de decisiones
+                  inteligentes.
+                </p>
+                <p>
+                  Desde Santa Fe acompañamos a empresas, emprendedores,
+                  profesionales y clientes extranjeros que buscan claridad,
+                  previsibilidad y comunicación transparente en cada paso del
+                  proceso.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h3 className="mt-3 font-serif text-3xl text-foreground md:text-2xl">
+                  Nuestro director
+                </h3>
+                <p className="mt-1">
+                  El estudio está dirigido por Sergio Luis Betique, Contador
+                  Público Nacional, matriculado en el Consejo Profesional de
+                  Ciencias Económicas de la Provincia de Santa Fe - Cámara
+                  Primera, desde mayo de 1998.
+                </p>
+                <p>
+                  Con más de 28 años de experiencia, Sergio cuenta con una
+                  sólida trayectoria en el acompañamiento integral de PyMEs y
+                  profesionales, integrando normativa vigente, comparativas
+                  interprovinciales y automatización de procesos para ofrecer
+                  soluciones precisas y eficientes.
+                </p>
+              </div>
+            </div>
 
             <ul className="mt-8 flex flex-col gap-4">
               {HIGHLIGHTS.map((h) => (
@@ -54,7 +80,7 @@ export function About() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 w-1/3">
             {STATS.map((stat) => (
               <div
                 key={stat.label}
