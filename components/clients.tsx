@@ -11,6 +11,7 @@ import {
   DoorClosed,
   Siren,
   Globe,
+  Plane,
 } from "lucide-react";
 
 const CURRENT_CLIENTS = [
@@ -29,7 +30,9 @@ const CURRENT_CLIENTS = [
 const PAST_CLIENTS = [
   { name: "Lipomize SRL", icon: Atom },
   { name: "Colegio Traductores, Provincia de Santa Fe", icon: Globe },
-  { name: "Sattler", icon: CarFront },
+  { name: "Taller Aeronáutico Santo Tomé", icon: Plane },
+  { name: "Sattler SA", icon: CarFront },
+  { name: "Sattler Hermanos SA", icon: CarFront },
 ];
 
 function ClientCard({
