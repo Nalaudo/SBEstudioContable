@@ -42,7 +42,7 @@ const SERVICES = [
     icon: Users,
     title: "Sueldos",
     description:
-      "Liquidación de haberes, cargas sociales, altas y bajas en AFIP.",
+      "Liquidación de haberes, cargas sociales, altas y bajas en ARCA.",
   },
 ];
 
