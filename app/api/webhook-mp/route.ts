@@ -70,7 +70,30 @@ export async function POST(req: NextRequest) {
       console.log("Webhook signature validada OK");
     }
 
-    // Rest of the code remains the same...
+    if (data.type === "payment") {
+      const paymentId = data.data.id;
+
+      // Consulta el pago para confirmar status (importante!)
+      const client = new MercadoPagoConfig({
+        accessToken: process.env.MP_ACCESS_TOKEN!,
+      });
+      const paymentClient = new Payment(client);
+      const payment = await paymentClient.get({ id: paymentId });
+
+      if (payment.status === "approved") {
+        const externalRef = payment.external_reference;
+        if (externalRef) {
+          const { email, date, time } = JSON.parse(externalRef);
+
+          // ¡Acá agendamos!
+          await createGoogleCalendarEvent({ email, date, time });
+
+          // Opcional: enviá email de confirmación con Resend/Nodemailer
+        }
+      }
+    }
+
+    return NextResponse.json({ received: true }, { status: 200 });
   } catch (error) {
     console.error("Webhook error:", error);
     return NextResponse.json({ error: "Webhook failed" }, { status: 200 });
