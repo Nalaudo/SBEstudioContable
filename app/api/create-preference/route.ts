@@ -44,9 +44,9 @@ export async function POST(req: NextRequest) {
           },
         ],
         back_urls: {
-          success: `${origin}/agendar/resultado?status=approved`,
-          failure: `${origin}/agendar/resultado?status=rejected`,
-          pending: `${origin}/agendar/resultado?status=pending`,
+          success: `${origin}/agendar/resultado`,
+          failure: `${origin}/agendar/resultado`,
+          pending: `${origin}/agendar/resultado`,
         },
         auto_return: "approved",
         external_reference: JSON.stringify({ email, date, time }),
