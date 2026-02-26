@@ -13,7 +13,6 @@ export default async function handler(
 
   let body = "";
   try {
-    // En Pages Router, body ya viene parseado si es JSON (por default)
     body = JSON.stringify(req.body || {});
     console.log("Body length:", body.length);
     console.log("Body preview:", body.substring(0, 200));
@@ -21,6 +20,8 @@ export default async function handler(
     console.error("Error body:", e);
   }
 
-  // Siempre responde 200 rápido
-  res.status(200).json({ received: true, router: "pages" });
+  // Respuesta raw - evita json() para no tocar headers read-only
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Cache-Control", "no-cache"); // opcional, evita cachés
+  res.status(200).send(JSON.stringify({ received: true, router: "pages" }));
 }
