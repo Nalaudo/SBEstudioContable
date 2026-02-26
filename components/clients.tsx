@@ -60,10 +60,10 @@ function ClientCard({
 
 export function Clients() {
   return (
-    <section id="clientes" className="py-24">
+    <section id="clientes" className="py-24 bg-primary-4">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <span className="text-sm font-medium tracking-wide text-primary uppercase">
+          <span className="text-base font-medium tracking-wide text-white uppercase">
             Quienes confian en nosotros
           </span>
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">

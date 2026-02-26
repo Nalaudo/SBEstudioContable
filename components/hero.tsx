@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-170 sm:min-h-215 md:min-h-237.5 items-center overflow-hidden pt-[100.17px]"
+      className="relative flex min-h-170 sm:min-h-215 md:min-h-237.5 items-center overflow-hidden pt-[100.17px] bg-primary"
     >
       <Image
         className="absolute sm:bottom-0 md:bottom-10 left-1/2 -translate-x-1/2 opacity-15"

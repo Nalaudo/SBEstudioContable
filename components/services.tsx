@@ -48,10 +48,10 @@ const SERVICES = [
 
 export function Services() {
   return (
-    <section id="servicios" className="py-24">
+    <section id="servicios" className="py-24 bg-primary-4">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <span className="text-sm font-medium tracking-wide text-accent uppercase">
+          <span className="text-base font-medium tracking-wide text-white uppercase">
             Nuestros servicios
           </span>
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">

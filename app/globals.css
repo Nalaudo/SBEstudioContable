@@ -11,6 +11,9 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.17 0.04 260);
   --primary: #182d50;
+  --primary-2: #2c4060; /*Opciones: #006d94 #2c4060*/
+  --primary-3: #475a7a; /*Opciones: #009cb5 #475a7a*/
+  --primary-4: #64769a; /*Opciones: #0dccc3 #64769a*/
   --primary-5: #8a98b8; /*Opciones: #80f9c0 #8a98b8*/
   --primary-foreground: oklch(0.98 0.002 250);
   --secondary: #bfdcff;
@@ -94,6 +97,6 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-linear-to-b from-primary to-primary-5 text-foreground;
+    @apply text-foreground;
   }
 }

@@ -15,10 +15,10 @@ const STATS = [
 
 export function About() {
   return (
-    <section id="nosotros" className="overflow-x-hidden py-24">
+    <section id="nosotros" className="overflow-x-hidden py-24 bg-primary-5">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col justify-center lg:justify-between items-center gap-16 lg:grid-cols-2">
-          <span className="text-sm font-medium tracking-wide text-accent uppercase">
+        <div className="flex flex-col justify-center lg:justify-between items-center lg:grid-cols-2">
+          <span className="text-base font-medium tracking-wide text-white uppercase">
             Sobre nosotros
           </span>
           {/* Text */}
@@ -30,7 +30,7 @@ export function About() {
 
               <div className="flex flex-col gap-6 mt-6">
                 <div className="flex flex-col gap-2">
-                  <h3 className="mt-3 font-serif text-3xl text-foreground md:text-2xl">
+                  <h3 className="mt-3 font-serif text-3xl text-accent/70 md:text-2xl">
                     ¿Quiénes somos?
                   </h3>
                   <p className="mt-1">
@@ -51,7 +51,7 @@ export function About() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h3 className="mt-3 font-serif text-3xl text-foreground md:text-2xl">
+                  <h3 className="mt-3 font-serif text-3xl text-accent/70 md:text-2xl">
                     Profesional a cargo
                   </h3>
                   <p className="mt-1">
