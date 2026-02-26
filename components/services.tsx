@@ -48,16 +48,16 @@ const SERVICES = [
 
 export function Services() {
   return (
-    <section id="servicios" className="bg-background py-24">
+    <section id="servicios" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <span className="text-sm font-medium tracking-wide text-primary uppercase">
+          <span className="text-sm font-medium tracking-wide text-accent uppercase">
             Nuestros servicios
           </span>
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
             Todo lo que necesitás en un solo lugar
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-lg text-foreground">
             Servicio integral y actualizado para personas particulares,
             monotributistas, profesionales y empresas.
           </p>

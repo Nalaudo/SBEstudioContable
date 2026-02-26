@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-170 sm:min-h-215 md:min-h-237.5 items-center overflow-hidden bg-primary pt-[100.17px]"
+      className="relative flex min-h-170 sm:min-h-215 md:min-h-237.5 items-center overflow-hidden pt-[100.17px]"
     >
       <Image
         className="absolute sm:bottom-0 md:bottom-10 left-1/2 -translate-x-1/2 opacity-15"
@@ -15,15 +15,9 @@ export function Hero() {
         alt="Caduceo"
         width={650}
         height={650}
-      />
-      {/* Decorative grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
+        priority
+        fetchPriority="high"
+        loading="eager"
       />
 
       <div className="relative mx-auto max-w-6xl px-6 py-24 text-center lg:py-32">

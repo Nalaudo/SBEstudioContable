@@ -46,19 +46,21 @@ function ClientCard({
 }) {
   return (
     <div
-      className={`group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-all hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 ${className}`}
+      className={`group flex flex-col md:flex-row items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-all hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 ${className}`}
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
         <Icon className="h-5 w-5" />
       </div>
-      <span className="text-sm font-medium text-foreground">{name}</span>
+      <span className="text-sm font-medium text-foreground text-center md:text-left">
+        {name}
+      </span>
     </div>
   );
 }
 
 export function Clients() {
   return (
-    <section id="clientes" className="bg-background py-24">
+    <section id="clientes" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <span className="text-sm font-medium tracking-wide text-primary uppercase">
@@ -67,7 +69,7 @@ export function Clients() {
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
             Clientes que nos eligen
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-lg text-foreground">
             Trabajamos con personas particulares, profesionales, monotributistas
             y empresas de distintos rubros, construyendo relaciones de largo
             plazo basadas en la confianza y el compromiso.
@@ -76,7 +78,7 @@ export function Clients() {
 
         {/* Current clients */}
         <div className="mt-16">
-          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-foreground uppercase">
             Clientes actuales
           </h3>
 
@@ -86,7 +88,7 @@ export function Clients() {
                 key={client.name}
                 name={client.name}
                 icon={client.icon}
-                className="lg:w-64 lg:shrink-0 h-22.5"
+                className="lg:w-64 lg:shrink-0 h-fit"
               />
             ))}
           </div>
@@ -94,7 +96,7 @@ export function Clients() {
 
         {/* Past clients */}
         <div className="mt-14">
-          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-foreground uppercase">
             Clientes anteriores
           </h3>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-6 ">
@@ -103,7 +105,7 @@ export function Clients() {
                 key={client.name}
                 name={client.name}
                 icon={client.icon}
-                className="lg:w-64 lg:shrink-0 h-22.5"
+                className="lg:w-64 lg:shrink-0 h-fit"
               />
             ))}
           </div>

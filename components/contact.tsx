@@ -33,7 +33,7 @@ const INFO_ITEMS = [
 
 export function Contact() {
   return (
-    <section id="contacto" className="bg-secondary py-24">
+    <section id="contacto" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <span className="text-sm font-medium tracking-wide text-primary uppercase">
@@ -42,7 +42,7 @@ export function Contact() {
           <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
             Hablemos de tu consulta
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground flex flex-col">
+          <p className="mx-auto mt-4 max-w-lg text-foreground flex flex-col">
             <span>
               Contáctanos por WhatsApp, correo electrónico o redes sociales.
             </span>

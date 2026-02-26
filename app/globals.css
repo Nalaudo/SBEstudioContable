@@ -10,7 +10,8 @@
   --card-foreground: oklch(0.17 0.04 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.17 0.04 260);
-  --primary: oklch(0.3 0.07 260);
+  --primary: #182d50;
+  --primary-5: #8a98b8; /*Opciones: #80f9c0 #8a98b8*/
   --primary-foreground: oklch(0.98 0.002 250);
   --secondary: #bfdcff;
   --secondary-foreground: oklch(0.3 0.07 260);
@@ -50,6 +51,10 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-2: var(--primary-2);
+  --color-primary-3: var(--primary-3);
+  --color-primary-4: var(--primary-4);
+  --color-primary-5: var(--primary-5);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -89,6 +94,6 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-linear-to-b from-primary to-primary-5 text-foreground;
   }
 }
