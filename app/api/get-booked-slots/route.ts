@@ -1,4 +1,4 @@
-import { calendar } from "@/lib/utils";
+import { calendar } from "@/lib/google-server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

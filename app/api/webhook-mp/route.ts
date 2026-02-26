@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import crypto from "crypto";
-import { createGoogleCalendarEvent } from "@/lib/utils";
+import { createGoogleCalendarEvent } from "@/lib/google-server";
 
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN!;
 const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET; // opcional, pero recomendado
