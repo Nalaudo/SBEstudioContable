@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
   let body: string;
   try {
     body = await req.text();
+    console.log(body, "Body recibido en webhook");
   } catch (e) {
     console.error("Error leyendo body:", e);
     return NextResponse.json({ error: "Bad request" }, { status: 400 });
