@@ -8,58 +8,62 @@ const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET; // opcional, pero recom
 
 export async function POST(req: NextRequest) {
   try {
-    // Validación de firma si tenés secret configurado
-    // if (MP_WEBHOOK_SECRET) {
-    //   const signatureHeader = req.headers.get("x-signature");
+    if (MP_WEBHOOK_SECRET) {
+      const signatureHeader = req.headers.get("x-signature");
 
-    //   if (!signatureHeader) {
-    //     return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
-    //   }
+      if (!signatureHeader) {
+        console.error("No x-signature");
+        return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
+      }
 
-    //   const parts = signatureHeader.split(",");
-    //   const tsPart = parts.find((p) => p.startsWith("ts="));
-    //   const v1Part = parts.find((p) => p.startsWith("v1="));
+      const parts = signatureHeader.split(",");
+      const tsPart = parts.find((p) => p.startsWith("ts="));
+      const v1Part = parts.find((p) => p.startsWith("v1="));
 
-    //   if (!tsPart || !v1Part) {
-    //     return NextResponse.json(
-    //       { error: "Formato de firma inválido" },
-    //       { status: 401 },
-    //     );
-    //   }
+      if (!tsPart || !v1Part) {
+        return NextResponse.json(
+          { error: "Formato de firma inválido" },
+          { status: 401 },
+        );
+      }
 
-    //   const ts = tsPart.split("=")[1];
-    //   const receivedSignature = v1Part.split("=")[1];
+      const ts = tsPart.split("=")[1];
+      const receivedSignature = v1Part.split("=")[1];
 
-    //   // Check timestamp (anti-replay)
-    //   const now = Date.now();
-    //   const tsNumber = parseInt(ts, 10);
-    //   if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
-    //     return NextResponse.json(
-    //       { error: "Timestamp inválido" },
-    //       { status: 401 },
-    //     );
-    //   }
+      // Check timestamp (anti-replay)
+      const now = Date.now();
+      const tsNumber = parseInt(ts, 10);
+      if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
+        return NextResponse.json(
+          { error: "Timestamp inválido" },
+          { status: 401 },
+        );
+      }
 
-    //   const rawBody = await req.text();
-    //   const signedPayload = `${ts}.${rawBody}`;
+      const rawBody = await req.text();
+      const signedPayload = `${ts}.${rawBody}`;
+      const computedSignature = crypto
+        .createHmac("sha256", MP_WEBHOOK_SECRET)
+        .update(signedPayload)
+        .digest("hex");
 
-    //   const computedSignature = crypto
-    //     .createHmac("sha256", MP_WEBHOOK_SECRET)
-    //     .update(signedPayload)
-    //     .digest("hex");
+      if (
+        !crypto.timingSafeEqual(
+          Buffer.from(computedSignature),
+          Buffer.from(receivedSignature),
+        )
+      ) {
+        console.error(
+          "Firma inválida - computed:",
+          computedSignature,
+          "received:",
+          receivedSignature,
+        );
+        return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
+      }
+    }
 
-    //   if (
-    //     !crypto.timingSafeEqual(
-    //       Buffer.from(computedSignature),
-    //       Buffer.from(receivedSignature),
-    //     )
-    //   ) {
-    //     return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
-    //   }
-    // }
-
-    // Parsear el body (ahora sí)
-    const data = JSON.parse(await req.text()); // o usa el rawBody anterior
+    const data = JSON.parse(await req.text());
 
     if (data.type === "payment") {
       const paymentId = data.data?.id;
@@ -97,8 +101,8 @@ export async function POST(req: NextRequest) {
     // Siempre responder 200 OK para que MP deje de reintentar
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (error) {
-    console.error("Error en webhook:", error);
-    // Igual responder 200 para no generar reintentos infinitos
+    console.error("Webhook error completo:", error);
+    // SIEMPRE 200 en catch para evitar reintentos infinitos de MP
     return NextResponse.json({ received: true }, { status: 200 });
   }
 }
