@@ -6,10 +6,29 @@ import { createGoogleCalendarEvent } from "@/lib/google-server";
 const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET; // generá en MP dashboard si usás signature
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.text(); // Read once
-    const data = JSON.parse(body);
+  console.log("Webhook recibido en:", new Date().toISOString());
+  console.log("Headers:", Object.fromEntries(req.headers.entries()));
 
+  let body: string;
+  try {
+    body = await req.text();
+    console.log("Raw body recibido (longitud):", body.length);
+    console.log("Body preview:", body.substring(0, 200)); // no todo para no spamear
+  } catch (e) {
+    console.error("Error leyendo body:", e);
+    return NextResponse.json({ error: "Bad request" }, { status: 400 });
+  }
+
+  let data;
+  try {
+    data = JSON.parse(body);
+    console.log("Data parseada:", data);
+  } catch (e) {
+    console.error("Error parseando JSON:", e, "Body:", body);
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  try {
     // Verificación simple (x-signature si lo configuraste)
     if (MP_WEBHOOK_SECRET) {
       const signatureHeader = req.headers.get("x-signature");
@@ -70,27 +89,34 @@ export async function POST(req: NextRequest) {
       console.log("Webhook signature validada OK");
     }
 
-    if (data.type === "payment") {
-      const paymentId = data.data.id;
+    try {
+      if (data.type === "payment") {
+        const paymentId = data.data.id;
+        console.log("Consultando payment ID:", paymentId);
 
-      // Consulta el pago para confirmar status (importante!)
-      const client = new MercadoPagoConfig({
-        accessToken: process.env.MP_ACCESS_TOKEN!,
-      });
-      const paymentClient = new Payment(client);
-      const payment = await paymentClient.get({ id: paymentId });
+        const client = new MercadoPagoConfig({
+          accessToken: process.env.MP_ACCESS_TOKEN!,
+        });
+        const paymentClient = new Payment(client);
 
-      if (payment.status === "approved") {
-        const externalRef = payment.external_reference;
-        if (externalRef) {
-          const { email, date, time } = JSON.parse(externalRef);
+        const payment = await paymentClient.get({ id: paymentId });
+        console.log("Payment obtenido:", payment.status);
 
-          // ¡Acá agendamos!
-          await createGoogleCalendarEvent({ email, date, time });
+        if (payment.status === "approved") {
+          const externalRef = payment.external_reference;
+          if (externalRef) {
+            const { email, date, time } = JSON.parse(externalRef);
 
-          // Opcional: enviá email de confirmación con Resend/Nodemailer
+            // ¡Acá agendamos!
+            await createGoogleCalendarEvent({ email, date, time });
+
+            // Opcional: enviá email de confirmación con Resend/Nodemailer
+          }
         }
       }
+    } catch (e) {
+      console.error("Error procesando payment:", e);
+      // NO devuelvas 200 aquí si falla gravemente → mejor 500 para debug, pero MP prefiere 200 siempre
     }
 
     return NextResponse.json({ received: true }, { status: 200 });
