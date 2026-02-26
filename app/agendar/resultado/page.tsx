@@ -1,14 +1,14 @@
-import Link from "next/link"
-import { CheckCircle2, XCircle, Clock, ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { CheckCircle2, XCircle, Clock, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const STATUS_MAP: Record<
   string,
   {
-    icon: React.ElementType
-    title: string
-    description: string
-    iconClass: string
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    iconClass: string;
   }
 > = {
   approved: {
@@ -22,7 +22,7 @@ const STATUS_MAP: Record<
     icon: Clock,
     title: "Pago pendiente",
     description:
-      "Tu pago esta siendo procesado. Te notificaremos por email cuando se confirme. No cierres esta pagina si usaste efectivo.",
+      "Tu pago esta siendo procesado. Te notificaremos por email cuando se confirme.",
     iconClass: "text-yellow-500",
   },
   rejected: {
@@ -32,21 +32,21 @@ const STATUS_MAP: Record<
       "No pudimos procesar tu pago. Intenta nuevamente con otro medio de pago o contactanos por WhatsApp.",
     iconClass: "text-destructive",
   },
-}
+};
 
 export const metadata = {
   title: "Resultado del pago | SB Estudio Contable",
-}
+};
 
 export default async function ResultadoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>
+  searchParams: Promise<{ status?: string }>;
 }) {
-  const params = await searchParams
-  const status = params.status || "pending"
-  const config = STATUS_MAP[status] || STATUS_MAP.pending
-  const Icon = config.icon
+  const params = await searchParams;
+  const status = params.status || "pending";
+  const config = STATUS_MAP[status] || STATUS_MAP.pending;
+  const Icon = config.icon;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6">
@@ -64,7 +64,11 @@ export default async function ResultadoPage({
 
         <div className="flex flex-col gap-3 w-full">
           {status === "rejected" && (
-            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button
+              asChild
+              size="lg"
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+            >
               <Link href="/agendar">Intentar de nuevo</Link>
             </Button>
           )}
@@ -77,5 +81,5 @@ export default async function ResultadoPage({
         </div>
       </div>
     </main>
-  )
+  );
 }

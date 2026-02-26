@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       month: "long",
     });
 
-    const origin = req.nextUrl.origin;
+    const origin = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
 
     const result = await preference.create({
       body: {

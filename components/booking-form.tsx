@@ -51,8 +51,10 @@ export function BookingForm() {
   const [apiError, setApiError] = useState("");
 
   useEffect(() => {
+    if (!selectedDate) return;
+
     fetch(
-      "/api/get-booked-slots?date=" + selectedDate?.toISOString().slice(0, 10),
+      "/api/get-booked-slots?date=" + selectedDate.toISOString().slice(0, 10),
     )
       .then((res) => res.json())
       .then((data) => {
@@ -69,7 +71,7 @@ export function BookingForm() {
           });
         }
       });
-  }, []);
+  }, [selectedDate]);
 
   const tomorrow = useMemo(() => {
     const d = new Date();

@@ -1,8 +1,11 @@
 import { google } from "googleapis";
 
+const encodedKey = process.env.GOOGLE_SERVICE_KEY!;
+const keyJsonString = Buffer.from(encodedKey, "base64").toString("utf-8");
+const credentials = JSON.parse(keyJsonString.replace(/\n/g, ""));
+
 const auth = new google.auth.GoogleAuth({
-  keyFile:
-    process.env.GOOGLE_SERVICE_ACCOUNT_PATH || "./google-service-account.json",
+  credentials,
   scopes: ["https://www.googleapis.com/auth/calendar"],
 });
 
