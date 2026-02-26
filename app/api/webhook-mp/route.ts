@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
 
       const payment = await paymentClient.get({ id: paymentId });
 
+      console.log(payment, data, "Payment recibido en webhook");
+
       if (payment.status === "approved") {
         const externalRef = payment.external_reference;
         if (externalRef) {
