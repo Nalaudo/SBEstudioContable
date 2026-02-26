@@ -34,20 +34,23 @@ const STATUS_MAP: Record<
   },
 };
 
-export const metadata = {
-  title: "Resultado del pago | SB Estudio Contable",
-};
-
-export default function ResultadoPage({
+export default async function ResultadoPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const statusRaw = searchParams.status;
-  const status = Array.isArray(statusRaw)
-    ? statusRaw[0]
-    : statusRaw || "pending";
-  const config = STATUS_MAP[status] || STATUS_MAP.pending;
+  const rawParams = await searchParams;
+
+  const statusRaw = rawParams.status;
+
+  const status =
+    typeof statusRaw === "string"
+      ? statusRaw
+      : Array.isArray(statusRaw) && statusRaw.length > 0
+        ? statusRaw[0]
+        : "pending";
+
+  const config = STATUS_MAP[status] ?? STATUS_MAP.pending;
   const Icon = config.icon;
 
   return (
