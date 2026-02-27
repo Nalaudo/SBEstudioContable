@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
 
     const result = await preference.create({
       body: {
+        notification_url: `${origin}/api/mp-notify`,
         items: [
           {
             id: "consulta-profesional",
