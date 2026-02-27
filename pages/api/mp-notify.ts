@@ -1,27 +1,49 @@
+import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  console.log("WEBHOOK EN PAGES ROUTER - LLEGÓ", new Date().toISOString());
-  console.log("Method:", req.method);
-  console.log(
-    "x-signature:",
-    req.headers["x-signature"] ? "presente" : "ausente",
-  );
+  console.log("WEBHOOK LLEGÓ - INTENTANDO VALIDAR FIRMA V1 QUERY");
 
-  let body = "";
-  try {
-    body = JSON.stringify(req.body || {});
-    console.log("Body length:", body.length);
-    console.log("Body preview:", body.substring(0, 200));
-  } catch (e) {
-    console.error("Error body:", e);
+  const headers = req.headers;
+  const xSignature = headers["x-signature"] as string;
+  const xRequestId = headers["x-request-id"] as string;
+  const dataId = req.query["data.id"] as string; // o req.query.id si es solo ?id=...
+
+  if (!xSignature || !xRequestId || !dataId) {
+    console.warn("Faltan headers o query params para validación");
+    return res.status(200).json({ received: true }); // responde 200 igual
   }
 
-  // Respuesta raw - evita json() para no tocar headers read-only
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "no-cache"); // opcional, evita cachés
-  res.status(200).send(JSON.stringify({ received: true, router: "pages" }));
+  const parts = xSignature.split(",");
+  let ts = "";
+  let hash = "";
+
+  parts.forEach((part) => {
+    const [key, value] = part.split("=");
+    if (key?.trim() === "ts") ts = value?.trim() || "";
+    if (key?.trim() === "v1") hash = value?.trim() || "";
+  });
+
+  const secret = process.env.MP_WEBHOOK_SECRET!;
+  const manifest = `id:${dataId};request-id:${xRequestId};ts:${ts};`;
+
+  const computed = crypto
+    .createHmac("sha256", secret)
+    .update(manifest)
+    .digest("hex");
+
+  if (computed === hash) {
+    console.log("Firma válida (query manifest)");
+    // Procesar el pago aquí
+  } else {
+    console.warn("Firma inválida (query manifest)", {
+      computed,
+      received: hash,
+    });
+  }
+
+  res.status(200).json({ received: true });
 }
