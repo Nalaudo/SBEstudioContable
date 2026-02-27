@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
             title: `Consulta Profesional - ${formattedDate} a las ${time} hs`,
             description: `Consulta Profesional con ${email} programada para el ${formattedDate} a las ${time} hs.`,
             quantity: 1,
-            unit_price: 1,
+            unit_price: Number(process.env.NEXT_PUBLIC_SERVICE_PRICE) || 50000,
             currency_id: "ARS",
           },
         ],
