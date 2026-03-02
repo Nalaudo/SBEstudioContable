@@ -344,7 +344,12 @@ export function BookingForm() {
                 Consulta profesional
               </span>
               <span className="font-serif text-2xl text-foreground">
-                $30.000
+                {new Intl.NumberFormat("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                }).format(
+                  Number(process.env.NEXT_PUBLIC_SERVICE_PRICE || 50000),
+                )}
               </span>
             </div>
           </div>
