@@ -48,23 +48,29 @@ export async function createGoogleCalendarEvent({
     },
   };
 
-  // Insertar el evento en el calendario
-  const response = await calendar.events.insert({
-    calendarId: "sbetique@gmail.com",
-    conferenceDataVersion: 1, // Requerido para crear conferencias
-    requestBody: event,
-  });
-
-  const meetLink = response.data.hangoutLink;
-  console.log(`Evento creado: ${response.data.htmlLink}`);
-  console.log(`Link de Google Meet: ${meetLink}`);
+  try {
+    // Insertar el evento en el calendario
+    const response = await calendar.events.insert({
+      calendarId: "sbetique@gmail.com",
+      conferenceDataVersion: 1, // Requerido para crear conferencias
+      requestBody: event,
+    });
+    const meetLink = response.data.hangoutLink;
+    console.log(`Evento creado: ${response.data.htmlLink}`);
+    console.log(`Link de Google Meet: ${meetLink}`);
+    return meetLink;
+  } catch (gError: any) {
+    console.error(
+      "Google Calendar insert error:",
+      gError.response?.data || gError.message,
+    );
+    throw gError;
+  }
 
   // Opcional: Aquí podrías integrar envío de email con el meetLink (ej. usando nodemailer o SendGrid)
   // Por ahora, solo lo agendamos y logueamos. Si necesitas enviar email, agrega lógica aquí.
   // Ejemplo básico (requiere configurar nodemailer):
   // await sendConfirmationEmail(email, date, time, meetLink);
-
-  return meetLink; // Retorna el link por si lo necesitas en otro lugar
 }
 
 // Función auxiliar para envío de email (opcional, configúrala si es necesario)
