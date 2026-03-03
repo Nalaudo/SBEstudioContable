@@ -5,6 +5,8 @@ export async function POST(req: NextRequest) {
   try {
     const { email, date, time } = await req.json();
 
+    console.log("date and time", date, time);
+
     if (!email || !date || !time) {
       return NextResponse.json(
         { error: "Faltan datos obligatorios." },

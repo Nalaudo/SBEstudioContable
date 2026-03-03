@@ -11,35 +11,56 @@ export const calendar = google.calendar({ version: "v3", auth });
 // Función para crear el evento (nueva implementación)
 export async function createGoogleCalendarEvent({
   email,
-  date, // Esperamos "YYYY-MM-DD"
+  date, // puede llegar como "2026-03-04" o "2026-03-04T03:00:00.000Z"
   time, // "14:00"
 }: {
   email: string;
   date: string;
   time: string;
 }) {
-  // Parsear fecha base (asumimos UTC o local, pero la tratamos como local)
-  const [year, month, day] = date.split("-").map(Number);
+  // Normalizar date a solo YYYY-MM-DD
+  const dateOnly = date.split("T")[0]; // quita hora y Z si existen
+
+  // Parsear componentes
+  const [year, month, day] = dateOnly.split("-").map(Number);
   const [hour, minute] = time.split(":").map(Number);
 
-  // Crear Date en timezone local (sin offset manual para evitar duplicados)
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    isNaN(day) ||
+    isNaN(hour) ||
+    isNaN(minute)
+  ) {
+    throw new Error(`Fecha u hora inválida: date=${date}, time=${time}`);
+  }
+
+  // Crear Date local (mes -1 porque JS Date usa 0-11)
   const startLocal = new Date(year, month - 1, day, hour, minute, 0);
+
+  // Validar que no sea Invalid Date
+  if (isNaN(startLocal.getTime())) {
+    throw new Error(
+      `No se pudo crear fecha válida a partir de ${date} ${time}`,
+    );
+  }
+
   const endLocal = new Date(startLocal);
   endLocal.setHours(endLocal.getHours() + 1);
 
-  // Formato RFC3339 sin offset (timeZone lo maneja)
-  const startDateTimeStr = startLocal.toISOString().replace(/\.\d{3}Z$/, ""); // quita .000Z
-  const endDateTimeStr = endLocal.toISOString().replace(/\.\d{3}Z$/, "");
+  // Formato RFC3339 sin milisegundos ni Z (timeZone lo indica)
+  const startStr = startLocal.toISOString().replace(/\.\d{3}Z$/, "");
+  const endStr = endLocal.toISOString().replace(/\.\d{3}Z$/, "");
 
   const event = {
     summary: `Consulta profesional con ${email}`,
-    description: `Turno reservado para ${email} el ${date} a las ${time}.`,
+    description: `Turno reservado para ${email} el ${dateOnly} a las ${time}.`,
     start: {
-      dateTime: startDateTimeStr, // ej: "2026-03-04T14:00:00"
+      dateTime: startStr, // "2026-03-04T14:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     end: {
-      dateTime: endDateTimeStr, // ej: "2026-03-04T15:00:00"
+      dateTime: endStr, // "2026-03-04T15:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     attendees: [{ email }],
@@ -53,19 +74,21 @@ export async function createGoogleCalendarEvent({
 
   try {
     const response = await calendar.events.insert({
-      calendarId: process.env.GOOGLE_CALENDAR_ID!, // tu ID real
+      calendarId: process.env.GOOGLE_CALENDAR_ID!,
       conferenceDataVersion: 1,
       requestBody: event,
     });
 
     const meetLink = response.data.hangoutLink;
-    console.log(`Evento creado: ${response.data.htmlLink} | Meet: ${meetLink}`);
+    console.log(
+      `Evento creado OK - ID: ${response.data.id} | Meet: ${meetLink}`,
+    );
     return meetLink;
   } catch (err: any) {
-    console.error("Google insert full error:", {
+    console.error("Error al insertar en Google Calendar:", {
       message: err.message,
       response: err.response?.data,
-      requestBody: event, // loguea el body enviado para debug
+      sentBody: event,
     });
     throw err;
   }
