@@ -16,13 +16,17 @@ export async function GET(req: NextRequest) {
     timeMax: end.toISOString(),
     singleEvents: true,
     orderBy: "startTime",
+    timeZone: "America/Argentina/Buenos_Aires",
   });
 
   const bookedTimes =
-    res.data.items?.map((e) => {
-      const start = new Date(e.start?.dateTime!);
-      return start.toTimeString().slice(0, 5); // "13:00"
-    }) || [];
+    res.data.items
+      ?.map((e) => {
+        if (!e.start?.dateTime) return null;
+        const start = new Date(e.start.dateTime);
+        return start.toTimeString().slice(0, 5); // "09:00"
+      })
+      .filter(Boolean) || [];
 
   return NextResponse.json({ booked: bookedTimes });
 }

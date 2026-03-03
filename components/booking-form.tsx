@@ -107,7 +107,6 @@ export function BookingForm() {
   }, []);
 
   function handleDateSelect(date: Date | undefined) {
-    console.log("date selected:", date);
     setSelectedDate(date);
     if (date) setStep(2);
   }

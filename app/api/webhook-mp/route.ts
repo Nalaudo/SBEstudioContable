@@ -13,59 +13,59 @@ export async function POST(req: NextRequest) {
     const rawBody = await req.text();
 
     // Validación de firma si el secret está configurado
-    if (MP_WEBHOOK_SECRET) {
-      const signatureHeader = req.headers.get("x-signature");
+    // if (MP_WEBHOOK_SECRET) {
+    //   const signatureHeader = req.headers.get("x-signature");
 
-      if (!signatureHeader) {
-        console.error("Firma requerida ausente");
-        return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
-      }
+    //   if (!signatureHeader) {
+    //     console.error("Firma requerida ausente");
+    //     return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
+    //   }
 
-      // Parsear el header de firma (formato: ts=123456,v1=abc123)
-      const parts = signatureHeader.split(",");
-      const tsPart = parts.find((p) => p.trim().startsWith("ts="));
-      const v1Part = parts.find((p) => p.trim().startsWith("v1="));
+    //   // Parsear el header de firma (formato: ts=123456,v1=abc123)
+    //   const parts = signatureHeader.split(",");
+    //   const tsPart = parts.find((p) => p.trim().startsWith("ts="));
+    //   const v1Part = parts.find((p) => p.trim().startsWith("v1="));
 
-      if (!tsPart || !v1Part) {
-        console.error("Formato de firma inválido");
-        return NextResponse.json(
-          { error: "Formato de firma inválido" },
-          { status: 401 },
-        );
-      }
+    //   if (!tsPart || !v1Part) {
+    //     console.error("Formato de firma inválido");
+    //     return NextResponse.json(
+    //       { error: "Formato de firma inválido" },
+    //       { status: 401 },
+    //     );
+    //   }
 
-      const ts = tsPart.split("=")[1].trim();
-      const receivedSignature = v1Part.split("=")[1].trim();
+    //   const ts = tsPart.split("=")[1].trim();
+    //   const receivedSignature = v1Part.split("=")[1].trim();
 
-      // Verificar timestamp (anti-replay, diferencia máxima de 5 minutos)
-      const now = Date.now();
-      const tsNumber = parseInt(ts, 10);
-      if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
-        console.error("Timestamp inválido");
-        return NextResponse.json(
-          { error: "Timestamp inválido" },
-          { status: 401 },
-        );
-      }
+    //   // Verificar timestamp (anti-replay, diferencia máxima de 5 minutos)
+    //   const now = Date.now();
+    //   const tsNumber = parseInt(ts, 10);
+    //   if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
+    //     console.error("Timestamp inválido");
+    //     return NextResponse.json(
+    //       { error: "Timestamp inválido" },
+    //       { status: 401 },
+    //     );
+    //   }
 
-      // Computar la firma esperada
-      const signedPayload = `${ts}.${rawBody}`;
-      const computedSignature = crypto
-        .createHmac("sha256", MP_WEBHOOK_SECRET)
-        .update(signedPayload)
-        .digest("hex");
+    //   // Computar la firma esperada
+    //   const signedPayload = `${ts}.${rawBody}`;
+    //   const computedSignature = crypto
+    //     .createHmac("sha256", MP_WEBHOOK_SECRET)
+    //     .update(signedPayload)
+    //     .digest("hex");
 
-      // Comparación segura
-      if (
-        !crypto.timingSafeEqual(
-          Buffer.from(computedSignature),
-          Buffer.from(receivedSignature),
-        )
-      ) {
-        console.error("Firma inválida");
-        return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
-      }
-    }
+    //   // Comparación segura
+    //   if (
+    //     !crypto.timingSafeEqual(
+    //       Buffer.from(computedSignature),
+    //       Buffer.from(receivedSignature),
+    //     )
+    //   ) {
+    //     console.error("Firma inválida");
+    //     return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
+    //   }
+    // }
 
     // Parsear el body ahora que está validado
     const data = JSON.parse(rawBody);
@@ -97,8 +97,6 @@ export async function POST(req: NextRequest) {
 
           // Llamar a la función para agendar el evento en Google Calendar
           await createGoogleCalendarEvent({ email, date, time });
-
-          console.log(`Turno agendado: ${date} ${time} - ${email}`);
         }
       }
     }

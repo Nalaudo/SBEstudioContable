@@ -28,11 +28,11 @@ export async function createGoogleCalendarEvent({
     summary: `Consulta profesional con ${email}`,
     description: `Turno reservado para ${email} el ${date} a las ${time}.`,
     start: {
-      dateTime: startDateTime.toISOString(),
+      dateTime: `${date}T${time}:00`, // "2026-03-04T09:00:00" SIN offset
       timeZone: "America/Argentina/Buenos_Aires",
     },
     end: {
-      dateTime: endDateTime.toISOString(),
+      dateTime: `${date}T${String(Number(time.split(":")[0]) + 1).padStart(2, "0")}:00`, // ej "10:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     attendees: [
