@@ -72,40 +72,68 @@ export async function POST(req: NextRequest) {
 
     if (data.type === "payment") {
       const paymentId = data.data?.id;
+      console.log(
+        "Webhook recibido - type: payment, paymentId crudo:",
+        paymentId,
+      );
+      console.log("Raw body parseado:", JSON.stringify(data, null, 2));
 
       if (!paymentId) {
+        console.warn("No hay paymentId en el webhook → skip");
         return NextResponse.json({ received: true }, { status: 200 });
       }
 
-      // Consultar el pago para obtener status y external_reference
-      const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
-      const paymentClient = new Payment(client);
-      const payment = await paymentClient.get({ id: paymentId });
+      try {
+        const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
+        const paymentClient = new Payment(client);
 
-      if (payment.status === "approved") {
-        const externalRef = payment.external_reference;
-        if (externalRef) {
-          let parsedRef;
-          try {
-            parsedRef = JSON.parse(externalRef);
-          } catch {
-            console.error("external_reference no es JSON válido");
-            return NextResponse.json({ received: true }, { status: 200 });
+        console.log(
+          "Intentando get payment con ID:",
+          paymentId,
+          "y accessToken (últimos 6 chars):",
+          MP_ACCESS_TOKEN.slice(-6),
+        );
+
+        const payment = await paymentClient.get({ id: paymentId });
+
+        console.log(
+          "Payment obtenido:",
+          payment.status,
+          payment.external_reference,
+        );
+
+        if (payment.status === "approved") {
+          const externalRef = payment.external_reference;
+          if (externalRef) {
+            let parsedRef;
+            try {
+              parsedRef = JSON.parse(externalRef);
+            } catch {
+              console.error("external_reference no es JSON válido");
+              return NextResponse.json({ received: true }, { status: 200 });
+            }
+
+            const { email, date, time } = parsedRef;
+
+            // Llamar a la función para agendar el evento en Google Calendar
+            await createGoogleCalendarEvent({ email, date, time });
           }
-
-          const { email, date, time } = parsedRef;
-
-          // Llamar a la función para agendar el evento en Google Calendar
-          await createGoogleCalendarEvent({ email, date, time });
         }
+      } catch (mpError: any) {
+        console.error("Error específico al consultar payment en MP:", {
+          message: mpError.message,
+          status: mpError.status,
+          response: mpError.response?.data, // ← esto suele dar el motivo exacto de MP
+          cause: mpError.cause,
+        });
+        // No rethrow, seguimos con 200
       }
-    }
 
-    // Siempre responder 200 OK para que MP deje de reintentar
-    return NextResponse.json({ received: true }, { status: 200 });
+      // Siempre responder 200 OK para que MP deje de reintentar
+      return NextResponse.json({ received: true }, { status: 200 });
+    }
   } catch (error) {
     console.error("Error en webhook:", error);
-    // Igual responder 200 para no generar reintentos infinitos
-    return NextResponse.json({ received: true }, { status: 200 });
+    return NextResponse.json({ received: true }, { status: 500 });
   }
 }
