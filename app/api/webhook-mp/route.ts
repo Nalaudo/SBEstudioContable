@@ -73,13 +73,14 @@ export async function POST(req: NextRequest) {
     if (data.type === "payment") {
       const paymentId = data.data?.id;
       console.log(
-        "Webhook recibido - type: payment, paymentId crudo:",
+        "Webhook recibido - type: payment, paymentId:",
         paymentId,
+        "action:",
+        data.action,
       );
-      console.log("Raw body parseado:", JSON.stringify(data, null, 2));
 
       if (!paymentId) {
-        console.warn("No hay paymentId en el webhook → skip");
+        console.warn("No paymentId → skip");
         return NextResponse.json({ received: true }, { status: 200 });
       }
 
@@ -87,20 +88,10 @@ export async function POST(req: NextRequest) {
         const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
         const paymentClient = new Payment(client);
 
-        console.log(
-          "Intentando get payment con ID:",
-          paymentId,
-          "y accessToken (últimos 6 chars):",
-          MP_ACCESS_TOKEN.slice(-6),
-        );
+        console.log("Consultando payment:", paymentId);
+        const payment = await paymentClient.get({ id: paymentId.toString() }); // forzá string por si acaso
 
-        const payment = await paymentClient.get({ id: paymentId });
-
-        console.log(
-          "Payment obtenido:",
-          payment.status,
-          payment.external_reference,
-        );
+        console.log("Payment status:", payment.status);
 
         if (payment.status === "approved") {
           const externalRef = payment.external_reference;
@@ -108,28 +99,36 @@ export async function POST(req: NextRequest) {
             let parsedRef;
             try {
               parsedRef = JSON.parse(externalRef);
+              console.log("Parsed ref:", parsedRef);
             } catch {
-              console.error("external_reference no es JSON válido");
+              console.error("external_reference inválido");
               return NextResponse.json({ received: true }, { status: 200 });
             }
 
             const { email, date, time } = parsedRef;
 
-            // Llamar a la función para agendar el evento en Google Calendar
+            // Acá creá el evento
+            console.log("Creando evento para:", email, date, time);
             await createGoogleCalendarEvent({ email, date, time });
+            console.log("Evento creado OK");
           }
+        } else {
+          console.log(
+            "Payment no approved, status:",
+            payment.status,
+            "→ skip calendar",
+          );
         }
       } catch (mpError: any) {
-        console.error("Error específico al consultar payment en MP:", {
+        console.error("Error al consultar/crear con MP:", {
           message: mpError.message,
-          status: mpError.status,
-          response: mpError.response?.data, // ← esto suele dar el motivo exacto de MP
-          cause: mpError.cause,
+          status: mpError.status || mpError.response?.status,
+          responseData: mpError.response?.data, // ← clave para ver el cause real de MP
+          fullError: mpError,
         });
-        // No rethrow, seguimos con 200
+        // NO rethrow → siempre 200 para que MP no reintente infinitamente
       }
 
-      // Siempre responder 200 OK para que MP deje de reintentar
       return NextResponse.json({ received: true }, { status: 200 });
     }
   } catch (error) {
