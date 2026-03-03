@@ -74,7 +74,7 @@ export async function createGoogleCalendarEvent({
 
   try {
     const response = await calendar.events.insert({
-      calendarId: process.env.GOOGLE_CALENDAR_ID!,
+      calendarId: "sbetique@gmail.com",
       conferenceDataVersion: 1,
       requestBody: event,
     });
