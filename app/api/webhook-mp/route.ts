@@ -1,3 +1,4 @@
+// api/webhook.ts (endpoint corregido con validación de firma activada y ajustes)
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import crypto from "crypto";
@@ -8,58 +9,66 @@ const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
   try {
-    // Validación de firma si tenés secret configurado
-    // if (MP_WEBHOOK_SECRET) {
-    //   const signatureHeader = req.headers.get("x-signature");
+    // Leer el body raw una sola vez (importante en Next.js, ya que req.text() consume el stream)
+    const rawBody = await req.text();
 
-    //   if (!signatureHeader) {
-    //     return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
-    //   }
+    // Validación de firma si el secret está configurado
+    if (MP_WEBHOOK_SECRET) {
+      const signatureHeader = req.headers.get("x-signature");
 
-    //   const parts = signatureHeader.split(",");
-    //   const tsPart = parts.find((p) => p.startsWith("ts="));
-    //   const v1Part = parts.find((p) => p.startsWith("v1="));
+      if (!signatureHeader) {
+        console.error("Firma requerida ausente");
+        return NextResponse.json({ error: "Firma requerida" }, { status: 401 });
+      }
 
-    //   if (!tsPart || !v1Part) {
-    //     return NextResponse.json(
-    //       { error: "Formato de firma inválido" },
-    //       { status: 401 },
-    //     );
-    //   }
+      // Parsear el header de firma (formato: ts=123456,v1=abc123)
+      const parts = signatureHeader.split(",");
+      const tsPart = parts.find((p) => p.trim().startsWith("ts="));
+      const v1Part = parts.find((p) => p.trim().startsWith("v1="));
 
-    //   const ts = tsPart.split("=")[1];
-    //   const receivedSignature = v1Part.split("=")[1];
+      if (!tsPart || !v1Part) {
+        console.error("Formato de firma inválido");
+        return NextResponse.json(
+          { error: "Formato de firma inválido" },
+          { status: 401 },
+        );
+      }
 
-    //   // Check timestamp (anti-replay)
-    //   const now = Date.now();
-    //   const tsNumber = parseInt(ts, 10);
-    //   if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
-    //     return NextResponse.json(
-    //       { error: "Timestamp inválido" },
-    //       { status: 401 },
-    //     );
-    //   }
+      const ts = tsPart.split("=")[1].trim();
+      const receivedSignature = v1Part.split("=")[1].trim();
 
-    //   const rawBody = await req.text();
-    //   const signedPayload = `${ts}.${rawBody}`;
+      // Verificar timestamp (anti-replay, diferencia máxima de 5 minutos)
+      const now = Date.now();
+      const tsNumber = parseInt(ts, 10);
+      if (Math.abs(now - tsNumber) > 5 * 60 * 1000) {
+        console.error("Timestamp inválido");
+        return NextResponse.json(
+          { error: "Timestamp inválido" },
+          { status: 401 },
+        );
+      }
 
-    //   const computedSignature = crypto
-    //     .createHmac("sha256", MP_WEBHOOK_SECRET)
-    //     .update(signedPayload)
-    //     .digest("hex");
+      // Computar la firma esperada
+      const signedPayload = `${ts}.${rawBody}`;
+      const computedSignature = crypto
+        .createHmac("sha256", MP_WEBHOOK_SECRET)
+        .update(signedPayload)
+        .digest("hex");
 
-    //   if (
-    //     !crypto.timingSafeEqual(
-    //       Buffer.from(computedSignature),
-    //       Buffer.from(receivedSignature),
-    //     )
-    //   ) {
-    //     return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
-    //   }
-    // }
+      // Comparación segura
+      if (
+        !crypto.timingSafeEqual(
+          Buffer.from(computedSignature),
+          Buffer.from(receivedSignature),
+        )
+      ) {
+        console.error("Firma inválida");
+        return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
+      }
+    }
 
-    // Parsear el body (ahora sí)
-    const data = JSON.parse(await req.text()); // o usa el rawBody anterior
+    // Parsear el body ahora que está validado
+    const data = JSON.parse(rawBody);
 
     if (data.type === "payment") {
       const paymentId = data.data?.id;
@@ -86,7 +95,7 @@ export async function POST(req: NextRequest) {
 
           const { email, date, time } = parsedRef;
 
-          // ¡Acá llamás a tu función de agendar en Google Calendar!
+          // Llamar a la función para agendar el evento en Google Calendar
           await createGoogleCalendarEvent({ email, date, time });
 
           console.log(`Turno agendado: ${date} ${time} - ${email}`);
