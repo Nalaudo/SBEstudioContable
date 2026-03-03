@@ -138,7 +138,7 @@ export function BookingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          date: selectedDate?.toISOString(),
+          date: selectedDate?.toISOString().split("T")[0],
           time: selectedTime,
         }),
       });

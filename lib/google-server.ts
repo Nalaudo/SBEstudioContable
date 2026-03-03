@@ -11,66 +11,64 @@ export const calendar = google.calendar({ version: "v3", auth });
 // Función para crear el evento (nueva implementación)
 export async function createGoogleCalendarEvent({
   email,
-  date,
-  time,
+  date, // Esperamos "YYYY-MM-DD"
+  time, // "14:00"
 }: {
   email: string;
-  date: string; // Formato YYYY-MM-DD
-  time: string; // Formato HH:MM
+  date: string;
+  time: string;
 }) {
-  // Construir las fechas de inicio y fin (asumiendo turnos de 1 hora y timezone Argentina)
-  const startDateTime = new Date(`${date}T${time}:00-03:00`);
-  const endDateTime = new Date(startDateTime);
-  endDateTime.setHours(endDateTime.getHours() + 1);
+  // Parsear fecha base (asumimos UTC o local, pero la tratamos como local)
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
 
-  // Definir el evento
+  // Crear Date en timezone local (sin offset manual para evitar duplicados)
+  const startLocal = new Date(year, month - 1, day, hour, minute, 0);
+  const endLocal = new Date(startLocal);
+  endLocal.setHours(endLocal.getHours() + 1);
+
+  // Formato RFC3339 sin offset (timeZone lo maneja)
+  const startDateTimeStr = startLocal.toISOString().replace(/\.\d{3}Z$/, ""); // quita .000Z
+  const endDateTimeStr = endLocal.toISOString().replace(/\.\d{3}Z$/, "");
+
   const event = {
     summary: `Consulta profesional con ${email}`,
     description: `Turno reservado para ${email} el ${date} a las ${time}.`,
     start: {
-      dateTime: `${date}T${time}:00`, // "2026-03-04T09:00:00" SIN offset
+      dateTime: startDateTimeStr, // ej: "2026-03-04T14:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     end: {
-      dateTime: `${date}T${String(Number(time.split(":")[0]) + 1).padStart(2, "0")}:00`, // ej "10:00:00"
+      dateTime: endDateTimeStr, // ej: "2026-03-04T15:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
-    attendees: [
-      { email }, // Agregar al usuario como attendee (recibirá invitación por email automáticamente si el calendario lo permite)
-    ],
+    attendees: [{ email }],
     conferenceData: {
       createRequest: {
-        requestId: `${Date.now()}-${Math.random().toString(36).substring(2)}`, // ID único para la solicitud
-        conferenceSolutionKey: {
-          type: "hangoutsMeet", // Crea una reunión en Google Meet
-        },
+        requestId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        conferenceSolutionKey: { type: "hangoutsMeet" },
       },
     },
   };
 
   try {
-    // Insertar el evento en el calendario
     const response = await calendar.events.insert({
-      calendarId: "sbetique@gmail.com",
-      conferenceDataVersion: 1, // Requerido para crear conferencias
+      calendarId: process.env.GOOGLE_CALENDAR_ID!, // tu ID real
+      conferenceDataVersion: 1,
       requestBody: event,
     });
-    const meetLink = response.data.hangoutLink;
-    console.log(`Evento creado: ${response.data.htmlLink}`);
-    console.log(`Link de Google Meet: ${meetLink}`);
-    return meetLink;
-  } catch (gError: any) {
-    console.error(
-      "Google Calendar insert error:",
-      gError.response?.data || gError.message,
-    );
-    throw gError;
-  }
 
-  // Opcional: Aquí podrías integrar envío de email con el meetLink (ej. usando nodemailer o SendGrid)
-  // Por ahora, solo lo agendamos y logueamos. Si necesitas enviar email, agrega lógica aquí.
-  // Ejemplo básico (requiere configurar nodemailer):
-  // await sendConfirmationEmail(email, date, time, meetLink);
+    const meetLink = response.data.hangoutLink;
+    console.log(`Evento creado: ${response.data.htmlLink} | Meet: ${meetLink}`);
+    return meetLink;
+  } catch (err: any) {
+    console.error("Google insert full error:", {
+      message: err.message,
+      response: err.response?.data,
+      requestBody: event, // loguea el body enviado para debug
+    });
+    throw err;
+  }
 }
 
 // Función auxiliar para envío de email (opcional, configúrala si es necesario)
