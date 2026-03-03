@@ -50,7 +50,7 @@ export async function createGoogleCalendarEvent({
 
   // Insertar el evento en el calendario
   const response = await calendar.events.insert({
-    calendarId: "primary", // Calendario principal
+    calendarId: "sbetique@gmail.com",
     conferenceDataVersion: 1, // Requerido para crear conferencias
     requestBody: event,
   });

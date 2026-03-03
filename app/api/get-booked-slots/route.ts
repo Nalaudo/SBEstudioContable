@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   const end = new Date(date + "T23:59:59-03:00");
 
   const res = await calendar.events.list({
-    calendarId: "primary",
+    calendarId: "sbetique@gmail.com",
     timeMin: start.toISOString(),
     timeMax: end.toISOString(),
     singleEvents: true,
