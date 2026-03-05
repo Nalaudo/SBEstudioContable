@@ -79,18 +79,9 @@ export function BookingForm() {
   }, [selectedDate]);
 
   function isSlotOccupied(slot: string, booked: Set<string>): boolean {
-    // Si está exactamente reservado → ocupado
     if (booked.has(slot)) return true;
 
-    // Convertimos "10:00" → 10
-    const slotHour = parseInt(slot.split(":")[0], 10);
-
-    // Consideramos ocupado si hay cita que empezó en la hora anterior
-    const prevHour = slotHour - 1;
-    if (prevHour < 9) return false; // antes del primer slot
-
-    const prevSlot = `${prevHour.toString().padStart(2, "0")}:00`;
-    return booked.has(prevSlot);
+    return false;
   }
 
   const tomorrow = useMemo(() => {
