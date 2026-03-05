@@ -67,7 +67,7 @@ export async function createGoogleCalendarEvent({
     conferenceData: {
       createRequest: {
         requestId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        conferenceSolutionKey: { type: "hangoutsMeet" },
+        conferenceSolutionKey: { type: "meet" },
       },
     },
   };
