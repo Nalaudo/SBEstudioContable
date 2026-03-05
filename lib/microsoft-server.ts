@@ -21,8 +21,15 @@ async function getAccessToken() {
   );
 
   const data = await tokenResponse.json();
-  if (!tokenResponse.ok)
+  console.log("Token response:", {
+    ok: tokenResponse.ok,
+    status: tokenResponse.status,
+    data: data,
+  });
+
+  if (!tokenResponse.ok) {
     throw new Error(data.error_description || "Token failed");
+  }
   return data.access_token;
 }
 
