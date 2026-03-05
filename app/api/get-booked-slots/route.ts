@@ -24,9 +24,15 @@ export async function GET(req: NextRequest) {
       ?.map((e) => {
         if (!e.start?.dateTime) return null;
         const start = new Date(e.start.dateTime);
-        return start.toTimeString().slice(0, 5); // "09:00"
+
+        // ✅ Extraer hora en timezone Argentina, no en UTC
+        return start.toLocaleTimeString("es-AR", {
+          timeZone: "America/Argentina/Buenos_Aires",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
       })
       .filter(Boolean) || [];
-
   return NextResponse.json({ booked: bookedTimes });
 }
