@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
         console.error("Error al consultar/crear con MP:", {
           message: mpError.message,
           status: mpError.status || mpError.response?.status,
-          responseData: mpError.response?.data, // ← clave para ver el cause real de MP
+          responseData: mpError.response?.data.error.errors, // ← clave para ver el cause real de MP
           fullError: mpError,
         });
         // NO rethrow → siempre 200 para que MP no reintente infinitamente

@@ -49,28 +49,26 @@ export async function createGoogleCalendarEvent({
   endLocal.setHours(endLocal.getHours() + 1);
 
   // Formato RFC3339 sin milisegundos ni Z (timeZone lo indica)
-  function formatDateWithOffset(date: Date): string {
+  function formatLocalDateTime(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}-03:00`;
+    // ✅ No offset, no Z — timeZone field handles interpretation
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
-
-  const startStr = formatDateWithOffset(startLocal);
-  const endStr = formatDateWithOffset(endLocal);
 
   const event = {
     summary: `Consulta profesional con ${email}`,
     description: `Turno reservado para ${email} el ${dateOnly} a las ${time}.`,
     start: {
-      dateTime: startStr, // "2026-03-04T14:00:00"
+      dateTime: formatLocalDateTime(startLocal), // "2026-03-06T13:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     end: {
-      dateTime: endStr, // "2026-03-04T15:00:00"
+      dateTime: formatLocalDateTime(endLocal), // "2026-03-06T14:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
     // attendees: [{ email }],
@@ -97,7 +95,7 @@ export async function createGoogleCalendarEvent({
   } catch (err: any) {
     console.error("Error al insertar en Google Calendar:", {
       message: err.message,
-      response: err.response?.data.error.errors,
+      response: err.response?.data,
       sentBody: event,
     });
     throw err;
