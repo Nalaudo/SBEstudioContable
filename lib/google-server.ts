@@ -63,7 +63,7 @@ export async function createGoogleCalendarEvent({
       dateTime: endStr, // "2026-03-04T15:00:00"
       timeZone: "America/Argentina/Buenos_Aires",
     },
-    attendees: [{ email }],
+    // attendees: [{ email }],
     conferenceData: {
       createRequest: {
         requestId: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
