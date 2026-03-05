@@ -97,7 +97,7 @@ export async function createGoogleCalendarEvent({
   } catch (err: any) {
     console.error("Error al insertar en Google Calendar:", {
       message: err.message,
-      response: err.response?.data,
+      response: err.response?.data.error.errors,
       sentBody: event,
     });
     throw err;
