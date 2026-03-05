@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import crypto from "crypto";
-import { createOutlookCalendarEvent } from "@/lib/microsoft-server";
+import { createGoogleCalendarEvent } from "@/lib/google-server";
 
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN!;
 const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET;
@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
 
             // Acá creá el evento
             console.log("Creando evento para:", email, date, time);
-            await createOutlookCalendarEvent({ email, date, time });
+            await createGoogleCalendarEvent({ email, date, time });
             console.log("Evento creado OK");
           }
         } else {
