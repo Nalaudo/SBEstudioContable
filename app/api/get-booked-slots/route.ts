@@ -27,10 +27,10 @@ export async function GET(req: NextRequest) {
     // Construir rango del día en UTC (Graph usa UTC internamente)
     const startDate = new Date(`${dateParam}T00:00:00-03:00`);
     const endDate = new Date(`${dateParam}T23:59:59-03:00`);
+    const userIdOrEmail = "slbetique@outlook.com";
 
-    // Microsoft Graph usa calendarView para ver eventos expandidos (mejor que list events)
     const events = await client
-      .api("/me/calendar/calendarView")
+      .api(`/users/${userIdOrEmail}/calendar/calendarView`)
       .filter(
         `start/dateTime ge '${startDate.toISOString()}' and end/dateTime le '${endDate.toISOString()}'`,
       )
