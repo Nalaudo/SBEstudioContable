@@ -1,6 +1,18 @@
 import { calendar } from "@/lib/google-server";
 import { NextRequest, NextResponse } from "next/server";
 
+const TIME_SLOTS = [
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+];
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date");
@@ -19,20 +31,32 @@ export async function GET(req: NextRequest) {
     timeZone: "America/Argentina/Buenos_Aires",
   });
 
-  const bookedTimes =
-    res.data.items
-      ?.map((e) => {
-        if (!e.start?.dateTime) return null;
-        const start = new Date(e.start.dateTime);
+  const bookedTimes = new Set<string>();
 
-        // ✅ Extraer hora en timezone Argentina, no en UTC
-        return start.toLocaleTimeString("es-AR", {
-          timeZone: "America/Argentina/Buenos_Aires",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-      })
-      .filter(Boolean) || [];
-  return NextResponse.json({ booked: bookedTimes });
+  res.data.items?.forEach((e) => {
+    if (!e.start?.dateTime || !e.end?.dateTime) return;
+
+    const start = new Date(e.start.dateTime);
+    const end = new Date(e.end.dateTime);
+
+    // Recorrer todos los slots y ver cuáles se superponen con el evento
+    TIME_SLOTS.forEach((slot) => {
+      const [hour, minute] = slot.split(":").map(Number);
+
+      // Construir start/end del slot en la misma fecha del evento
+      const slotStart = new Date(start);
+      slotStart.setHours(hour, minute, 0, 0);
+
+      const slotEnd = new Date(slotStart);
+      slotEnd.setHours(slotEnd.getHours() + 1);
+
+      // Se superponen si el slot empieza antes de que termine el evento
+      // Y termina después de que empieza el evento
+      if (slotStart < end && slotEnd > start) {
+        bookedTimes.add(slot);
+      }
+    });
+  });
+
+  return NextResponse.json({ booked: Array.from(bookedTimes) });
 }
