@@ -55,11 +55,13 @@ export function BookingForm() {
   useEffect(() => {
     if (!selectedDate) return;
     setIsLoadingSlots(true);
+    const dateStr = [
+      selectedDate.getFullYear(),
+      String(selectedDate.getMonth() + 1).padStart(2, "0"),
+      String(selectedDate.getDate()).padStart(2, "0"),
+    ].join("-");
 
-    fetch(
-      `/api/get-booked-slots?date=${selectedDate.toISOString().slice(0, 10)}`,
-      { cache: "no-store" },
-    )
+    fetch(`/api/get-booked-slots?date=${dateStr}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (data.booked) {
