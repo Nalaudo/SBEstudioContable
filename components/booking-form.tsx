@@ -231,24 +231,9 @@ export function BookingForm() {
                   locale={es}
                   selected={selectedDate}
                   onSelect={handleDateSelect}
-                  disabled={(date) => {
-                    const dateOnly = new Date(
-                      date.getFullYear(),
-                      date.getMonth(),
-                      date.getDate(),
-                    );
-                    const tomorrowOnly = new Date(
-                      tomorrow.getFullYear(),
-                      tomorrow.getMonth(),
-                      tomorrow.getDate(),
-                    );
-
-                    return (
-                      dateOnly < tomorrowOnly ||
-                      dateOnly > maxDate ||
-                      !isWeekday(date)
-                    );
-                  }}
+                  disabled={(date) =>
+                    date < tomorrow || date > maxDate || !isWeekday(date)
+                  }
                   className="[--cell-size:--spacing(10)]"
                 />
               </div>
