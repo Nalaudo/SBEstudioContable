@@ -55,13 +55,11 @@ export function BookingForm() {
   useEffect(() => {
     if (!selectedDate) return;
     setIsLoadingSlots(true);
-    const dateStr = [
-      selectedDate.getFullYear(),
-      String(selectedDate.getMonth() + 1).padStart(2, "0"),
-      String(selectedDate.getDate()).padStart(2, "0"),
-    ].join("-");
 
-    fetch(`/api/get-booked-slots?date=${dateStr}`, { cache: "no-store" })
+    fetch(
+      `/api/get-booked-slots?date=${selectedDate.toISOString().slice(0, 10)}`,
+      { cache: "no-store" },
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.booked) {
@@ -233,9 +231,24 @@ export function BookingForm() {
                   locale={es}
                   selected={selectedDate}
                   onSelect={handleDateSelect}
-                  disabled={(date) =>
-                    date < tomorrow || date > maxDate || !isWeekday(date)
-                  }
+                  disabled={(date) => {
+                    const dateOnly = new Date(
+                      date.getFullYear(),
+                      date.getMonth(),
+                      date.getDate(),
+                    );
+                    const tomorrowOnly = new Date(
+                      tomorrow.getFullYear(),
+                      tomorrow.getMonth(),
+                      tomorrow.getDate(),
+                    );
+
+                    return (
+                      dateOnly < tomorrowOnly ||
+                      dateOnly > maxDate ||
+                      !isWeekday(date)
+                    );
+                  }}
                   className="[--cell-size:--spacing(10)]"
                 />
               </div>
