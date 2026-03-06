@@ -1,12 +1,12 @@
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { BookingForm } from "@/components/booking-form"
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { BookingForm } from "@/components/booking-form";
 
 export const metadata = {
   title: "Agendar Consulta | SB Estudio Contable",
   description:
     "Agenda y paga tu consulta profesional con SB Estudio Contable en Santa Fe.",
-}
+};
 
 export default function AgendarPage() {
   return (
@@ -21,14 +21,6 @@ export default function AgendarPage() {
             <ArrowLeft className="h-4 w-4" />
             Volver al inicio
           </Link>
-          <div className="ml-auto flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-accent/15">
-              <span className="text-[10px] font-bold text-accent">SB</span>
-            </div>
-            <span className="font-serif text-sm text-foreground">
-              SB Estudio
-            </span>
-          </div>
         </div>
       </header>
 
@@ -51,5 +43,5 @@ export default function AgendarPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }

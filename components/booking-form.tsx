@@ -184,7 +184,7 @@ export function BookingForm() {
           >
             {STEPS.map((s, i) => {
               const isActive = step === s.id;
-              const isDone = step > s.id;
+              const isDone = step >= s.id;
               return (
                 <Fragment key={s.id}>
                   {i > 0 && (
