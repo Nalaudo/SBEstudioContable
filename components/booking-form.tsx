@@ -1,5 +1,5 @@
 "use client";
-import { es, is } from "date-fns/locale";
+import { es } from "date-fns/locale";
 import {
   CalendarDays,
   Clock,
@@ -85,10 +85,22 @@ export function BookingForm() {
   }
 
   const tomorrow = useMemo(() => {
-    const d = new Date();
-    d.setDate(d.getDate() + 1);
-    d.setHours(0, 0, 0, 0);
-    return d;
+    const now = new Date();
+
+    // Extraer año, mes y día actuales en Argentina
+    const parts = new Intl.DateTimeFormat("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(now);
+
+    const year = Number(parts.find((p) => p.type === "year")?.value);
+    const month = Number(parts.find((p) => p.type === "month")?.value);
+    const day = Number(parts.find((p) => p.type === "day")?.value);
+
+    // Construir fecha de mañana en Argentina (sin timezone shenanigans)
+    return new Date(year, month - 1, day + 1, 0, 0, 0, 0);
   }, []);
 
   const maxDate = useMemo(() => {
