@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   const end = new Date(date + "T23:59:59-03:00");
 
   const res = await calendar.events.list({
-    calendarId: "sbetique@gmail.com",
+    calendarId: "primary",
     timeMin: start.toISOString(),
     timeMax: end.toISOString(),
     singleEvents: true,
@@ -36,23 +36,31 @@ export async function GET(req: NextRequest) {
   res.data.items?.forEach((e) => {
     if (!e.start?.dateTime || !e.end?.dateTime) return;
 
-    const start = new Date(e.start.dateTime);
-    const end = new Date(e.end.dateTime);
+    const eventStart = new Date(e.start.dateTime);
+    const eventEnd = new Date(e.end.dateTime);
 
-    // Recorrer todos los slots y ver cuáles se superponen con el evento
+    // Convertir start y end a minutos desde medianoche en Argentina
+    const toARMinutes = (d: Date) => {
+      const timeStr = d.toLocaleTimeString("es-AR", {
+        timeZone: "America/Argentina/Buenos_Aires",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      const [h, m] = timeStr.split(":").map(Number);
+      return h * 60 + m;
+    };
+
+    const eventStartMin = toARMinutes(eventStart);
+    const eventEndMin = toARMinutes(eventEnd);
+
     TIME_SLOTS.forEach((slot) => {
-      const [hour, minute] = slot.split(":").map(Number);
+      const [h, m] = slot.split(":").map(Number);
+      const slotStartMin = h * 60 + m;
+      const slotEndMin = slotStartMin + 60;
 
-      // Construir start/end del slot en la misma fecha del evento
-      const slotStart = new Date(start);
-      slotStart.setHours(hour, minute, 0, 0);
-
-      const slotEnd = new Date(slotStart);
-      slotEnd.setHours(slotEnd.getHours() + 1);
-
-      // Se superponen si el slot empieza antes de que termine el evento
-      // Y termina después de que empieza el evento
-      if (slotStart < end && slotEnd > start) {
+      // Bloquear si hay cualquier superposición
+      if (slotStartMin < eventEndMin && slotEndMin > eventStartMin) {
         bookedTimes.add(slot);
       }
     });
