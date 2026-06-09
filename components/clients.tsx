@@ -60,54 +60,168 @@ function ClientCard({
 
 export function Clients() {
   return (
-    <section id="clientes" className="py-24 bg-primary-4">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="text-center">
-          <span className="text-base font-medium tracking-wide text-white uppercase">
-            Quienes confian en nosotros
+    <section id="clientes" className="py-24 bg-background">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full text-emerald-500 text-sm font-bold tracking-widest uppercase mb-4">
+            Quienes confían en nosotros
           </span>
-          <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
-            Clientes que nos eligen
+          <h2 className="text-4xl md:text-[2.5rem] font-extrabold mb-5 text-slate-100">
+            Clientes que{" "}
+            <span className="bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent">
+              nos eligen
+            </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-foreground">
+          <p className="text-lg text-slate-400 max-w-3xl mx-auto">
             Trabajamos con personas particulares, profesionales, monotributistas
             y empresas de distintos rubros, construyendo relaciones de largo
             plazo basadas en la confianza y el compromiso.
           </p>
         </div>
 
-        {/* Current clients */}
-        <div className="mt-16">
-          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-foreground uppercase">
-            Clientes actuales
-          </h3>
+        <div className="mb-16">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="h-px bg-white/10 flex-1"></div>
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">
+              Clientes Actuales
+            </h3>
+            <div className="h-px bg-white/10 flex-1"></div>
+          </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-6 ">
-            {CURRENT_CLIENTS.map((client) => (
-              <ClientCard
-                key={client.name}
-                name={client.name}
-                icon={client.icon}
-                className="lg:w-64 lg:shrink-0 h-fit"
-              />
-            ))}
+          <div className="flex flex-wrap justify-center gap-5">
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-tools"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                AR-ZAP
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-seedling"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Agroganaderos Don Jose SRL
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-truck"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Daniel Faisal SA
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-broom"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Diaz Servicios SRL
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-box"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Don Mariano SRL
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-leaf"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Los 4 Cardos SAS
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-couch"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Norli Amoblamientos
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-tractor"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Sucesores de Gerardo R. Mehring SA
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-tint"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                THéZ SRL
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-emerald-500/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 w-full md:w-auto md:min-w-[350px]">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <i className="fas fa-shield-alt"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Asoc. Cooperadora Policial, Esperanza
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Past clients */}
-        <div className="mt-14">
-          <h3 className="mb-6 text-center text-xs font-semibold tracking-widest text-foreground uppercase">
-            Clientes anteriores
-          </h3>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center lg:gap-6 ">
-            {PAST_CLIENTS.map((client) => (
-              <ClientCard
-                key={client.name}
-                name={client.name}
-                icon={client.icon}
-                className="lg:w-64 lg:shrink-0 h-fit"
-              />
-            ))}
+        <div>
+          <div className="flex items-center gap-4 mb-10">
+            <div className="h-px bg-white/10 flex-1"></div>
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">
+              Clientes Anteriores
+            </h3>
+            <div className="h-px bg-white/10 flex-1"></div>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-5 opacity-80">
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-lg hover:opacity-100 transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                <i className="fas fa-flask"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Lipomize SRL
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-lg hover:opacity-100 transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                <i className="fas fa-globe"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Colegio Traductores, Santa Fe
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-lg hover:opacity-100 transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                <i className="fas fa-plane"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Taller Aeronáutico Santo Tomé
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-lg hover:opacity-100 transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                <i className="fas fa-car"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Sattler SA
+              </span>
+            </div>
+            <div className="bg-surface border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-lg hover:opacity-100 transition-all duration-300 w-full md:w-auto md:min-w-[260px]">
+              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                <i className="fas fa-car"></i>
+              </div>
+              <span className="text-slate-300 font-semibold text-sm">
+                Sattler Hermanos SA
+              </span>
+            </div>
           </div>
         </div>
       </div>

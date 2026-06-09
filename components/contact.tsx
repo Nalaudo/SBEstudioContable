@@ -1,90 +1,72 @@
-"use client";
-
-import { useState } from "react";
-import { MapPin, Phone, Mail, Newspaper } from "lucide-react";
-import Link from "next/link";
-
-const INFO_ITEMS = [
-  {
-    icon: MapPin,
-    label: "Dirección",
-    value: "Gobernador Freyre 1059, Santa Fe, Argentina",
-    link: "https://www.google.com/maps/place/Gobernador+Freyre+1059,+Santa+Fe/@-31.6347,-60.7055,17z",
-  },
-  {
-    icon: Phone,
-    label: "Teléfono",
-    value: "+54 342 408-0329",
-    link: "tel:+543424080329",
-  },
-  {
-    icon: Mail,
-    label: "Correo electrónico",
-    value: "slbetique@outlook.com",
-    link: "mailto:slbetique@outlook.com",
-  },
-  {
-    icon: Newspaper,
-    label: "Newsletter",
-    value: "Suscribite para recibir novedades y consejos contables",
-    link: "https://www.instagram.com/channel/AbYqv9casTQc7jDK/",
-  },
-];
-
 export function Contact() {
   return (
-    <section id="contacto" className="py-24 bg-primary-5">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="text-center">
-          <span className="text-base font-medium tracking-wide text-white uppercase">
-            Contacto
-          </span>
-          <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
-            Hablemos de tu consulta
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-foreground flex flex-col">
-            <span>
-              Contáctanos por WhatsApp, correo electrónico o redes sociales.
+    <section id="contacto" className="py-24 border-t border-white/5 bg-surface">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h3 className="text-4xl font-extrabold mb-8 text-slate-100">
+            Contacto{" "}
+            <span className="bg-linear-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent">
+              Inmediato
             </span>
-            <span>
-              Suscribite al Newsletter para recibir novedades y consejos
-              contables.
-            </span>
-            <span>¡Estamos para ayudarte a crecer!</span>
-          </p>
+          </h3>
+          <ul className="space-y-7">
+            <li className="flex items-center gap-6 bg-background p-5 rounded-2xl border border-white/5 shadow-md">
+              <i className="fas fa-map-marker-alt text-3xl text-emerald-500 w-8 text-center"></i>
+              <div>
+                <h4 className="text-[0.85rem] uppercase tracking-wider text-slate-400 mb-1">
+                  Dirección
+                </h4>
+                <p className="text-lg font-semibold text-slate-100">
+                  Gdor. Freyre 1059 - Santa Fe
+                </p>
+              </div>
+            </li>
+            <li className="flex items-center gap-6 bg-background p-5 rounded-2xl border border-white/5 shadow-md">
+              <i className="fas fa-phone-alt text-3xl text-emerald-500 w-8 text-center"></i>
+              <div>
+                <h4 className="text-[0.85rem] uppercase tracking-wider text-slate-400 mb-1">
+                  Teléfono / WhatsApp
+                </h4>
+                <p className="text-lg font-semibold text-slate-100">
+                  +54 9 342 4080329
+                </p>
+              </div>
+            </li>
+            <li className="flex items-center gap-6 bg-background p-5 rounded-2xl border border-white/5 shadow-md">
+              <i className="fas fa-envelope text-3xl text-emerald-500 w-8 text-center"></i>
+              <div>
+                <h4 className="text-[0.85rem] uppercase tracking-wider text-slate-400 mb-1">
+                  Correos Electrónicos
+                </h4>
+                <p className="text-[0.95rem] font-semibold text-slate-100 leading-tight">
+                  slbetique@outlook.com
+                  <br />
+                  sbetique@gmail.com
+                </p>
+              </div>
+            </li>
+            <li className="flex items-center gap-6 bg-background p-5 rounded-2xl border border-white/5 shadow-md">
+              <i className="fas fa-globe text-3xl text-emerald-500 w-8 text-center"></i>
+              <div>
+                <h4 className="text-[0.85rem] uppercase tracking-wider text-slate-400 mb-1">
+                  Sitio Web
+                </h4>
+                <p className="text-lg font-semibold text-slate-100">
+                  www.sbestudio.com.ar
+                </p>
+              </div>
+            </li>
+          </ul>
         </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2">
-          {/* Info cards */}
-          <div className="flex flex-col gap-4">
-            {INFO_ITEMS.map((item) => (
-              <Link
-                key={item.label}
-                className="group flex items-start gap-4 rounded-xl border border-border bg-card p-5 transition-all hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5"
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase">
-                    {item.label}
-                  </p>
-                  <p className="mt-0.5 text-sm text-foreground">{item.value}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-
+        <div className="flex flex-col items-center justify-center bg-surface p-10 md:p-12 rounded-[28px] border border-blue-500/20 text-center shadow-[0_25px_60px_rgba(0,0,0,0.4)] max-w-lg mx-auto w-full">
           {/* Map */}
           <div className="overflow-hidden rounded-2xl border border-border">
             <iframe
               title="Ubicacion de SB Estudio Contable"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3397.108!2d-60.7055!3d-31.6347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b5a9a0a0a0a0a0%3A0x0!2sGobernador%20Freyre%201059%2C%20Santa%20Fe!5e0!3m2!1ses-419!2sar!4v1700000000000"
-              width="100%"
-              height="373,33"
+              width="400"
+              height="373.33"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"

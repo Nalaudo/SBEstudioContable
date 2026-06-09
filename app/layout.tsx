@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { Montserrat } from "next/font/google";
 
-const inter = Inter({
+const montserrat = Montserrat({
+  weight: ["300", "400", "600", "700", "800"],
   subsets: ["latin"],
-  variable: "--font-inter",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+      </head>
       <body
-        className={`${inter.variable} font-semibold font-sans antialiased`}
+        className={`${montserrat.className} font-semibold font-sans antialiased`}
         suppressHydrationWarning
       >
         {children}

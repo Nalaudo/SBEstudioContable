@@ -15,87 +15,126 @@ const STATS = [
 
 export function About() {
   return (
-    <section id="nosotros" className="overflow-x-hidden py-24 bg-primary-5">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col justify-center lg:justify-between items-center lg:grid-cols-2">
-          <span className="text-base font-medium tracking-wide text-white uppercase">
-            Sobre nosotros
-          </span>
-          {/* Text */}
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-16">
-            <div className="flex flex-col text-center lg:text-left items-center lg:items-start">
-              <h2 className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
-                Tu estudio contable de confianza en Santa Fe
-              </h2>
+    <section id="nosotros" className="py-24 bg-surface border-y border-white/5">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="lg:col-span-8">
+          <div className="mb-10">
+            <span className="inline-block px-4 py-1.5 bg-blue-500/15 border border-blue-500/30 rounded-full text-blue-500 text-sm font-bold tracking-widest uppercase mb-4">
+              Sobre Nosotros
+            </span>
+            <h2 className="text-4xl md:text-[2.5rem] font-extrabold mb-5 text-slate-100 leading-tight">
+              Tu estudio contable de confianza en{" "}
+              <span className="bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent">
+                Santa Fe
+              </span>
+            </h2>
+          </div>
 
-              <div className="flex flex-col gap-6 mt-6">
-                <div className="flex flex-col gap-2">
-                  <h3 className="mt-3 font-serif text-3xl text-accent/70 md:text-2xl">
-                    ¿Quiénes somos?
-                  </h3>
-                  <p className="mt-1">
-                    SB Estudio Contable es tu estudio contable de confianza en
-                    Santa Fe.
-                  </p>
-                  <p>
-                    Somos un espacio profesional dedicado a brindar
-                    asesoramiento contable, laboral, impositivo y societario con
-                    una mirada estratégica, ética y orientada a la toma de
-                    decisiones inteligentes.
-                  </p>
-                  <p>
-                    Desde Santa Fe acompañamos a empresas, emprendedores,
-                    profesionales y clientes extranjeros que buscan claridad,
-                    previsibilidad y comunicación transparente en cada paso del
-                    proceso.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="mt-3 font-serif text-3xl text-accent/70 md:text-2xl">
-                    Profesional a cargo
-                  </h3>
-                  <p className="mt-1">
-                    El estudio está dirigido por Sergio Luis Betique, Contador
-                    Público Nacional, matriculado en el Consejo Profesional de
-                    Ciencias Económicas de la Provincia de Santa Fe - Cámara
-                    Primera, desde mayo de 1998.
-                  </p>
-                  <p>
-                    Con más de 28 años de experiencia, Sergio cuenta con una
-                    sólida trayectoria en el acompañamiento integral de PyMEs y
-                    profesionales, integrando normativa vigente, comparativas
-                    interprovinciales y automatización de procesos para ofrecer
-                    soluciones precisas y eficientes.
-                  </p>
-                </div>
-              </div>
-
-              <ul className="mt-8 flex flex-col gap-4">
-                {HIGHLIGHTS.map((h) => (
-                  <li key={h} className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-accent" />
-                    <span className="text-sm text-foreground text-left">
-                      {h}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+          <div className="space-y-10">
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-slate-100 flex items-center gap-3">
+                <i className="fas fa-info-circle text-emerald-500"></i> ¿Quiénes
+                somos?
+              </h3>
+              <p className="text-slate-400 mb-4 text-lg leading-relaxed">
+                <strong className="text-slate-200">SB Estudio Contable</strong>{" "}
+                es tu estudio contable de confianza en Santa Fe. Somos un
+                espacio profesional dedicado a brindar asesoramiento contable,
+                laboral, impositivo y societario con una mirada estratégica,
+                ética y orientada a la toma de decisiones inteligentes.
+              </p>
+              <p className="text-slate-400 text-lg leading-relaxed">
+                Desde Santa Fe acompañamos a empresas, emprendedores,
+                profesionales y clientes extranjeros que buscan claridad,
+                previsibilidad y comunicación transparente en cada paso del
+                proceso.
+              </p>
             </div>
 
-            <div className="flex flex-wrap lg:flex-col gap-6">
-              {STATS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex flex-col items-center rounded-2xl bg-card p-8 text-center shadow-sm w-37.5 h-37.5 border-2 hover:shadow-md hover:border-accent transition-all"
-                >
-                  <span className="font-serif text-3xl text-primary md:text-4xl">
-                    {stat.value}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-slate-100 flex items-center gap-3">
+                <i className="fas fa-user-tie text-blue-500"></i> Profesional a
+                cargo
+              </h3>
+              <p className="text-slate-400 mb-4 text-lg leading-relaxed">
+                El estudio está dirigido por{" "}
+                <strong className="text-slate-200">Sergio Luis Betique</strong>,
+                Contador Público Nacional, matriculado en el Consejo Profesional
+                de Ciencias Económicas de la Provincia de Santa Fe - Cámara
+                Primera, desde mayo de 1998.
+              </p>
+              <p className="text-slate-400 mb-8 text-lg leading-relaxed">
+                Con más de 28 años de experiencia, Sergio cuenta con una sólida
+                trayectoria en el acompañamiento integral de PyMEs y
+                profesionales, integrando normativa vigente, comparativas
+                interprovinciales y automatización de procesos para ofrecer
+                soluciones precisas y eficientes.
+              </p>
+
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <li className="flex items-center gap-3 text-slate-300 font-medium bg-background p-4 rounded-xl border border-white/5 transition-colors hover:border-emerald-500/30">
+                  <i className="fas fa-check-circle text-emerald-500 text-lg"></i>
+                  <span className="text-sm">
+                    Atención personalizada en forma presencial y remota
                   </span>
-                  <span className="mt-2 text-xs text-muted-foreground">
-                    {stat.label}
+                </li>
+                <li className="flex items-center gap-3 text-slate-300 font-medium bg-background p-4 rounded-xl border border-white/5 transition-colors hover:border-emerald-500/30">
+                  <i className="fas fa-check-circle text-emerald-500 text-lg"></i>
+                  <span className="text-sm">
+                    Experiencia con monotributistas y PyMEs
                   </span>
-                </div>
-              ))}
+                </li>
+                <li className="flex items-center gap-3 text-slate-300 font-medium bg-background p-4 rounded-xl border border-white/5 transition-colors hover:border-emerald-500/30">
+                  <i className="fas fa-check-circle text-emerald-500 text-lg"></i>
+                  <span className="text-sm">
+                    Respuesta rápida y comunicación clara
+                  </span>
+                </li>
+                <li className="flex items-center gap-3 text-slate-300 font-medium bg-background p-4 rounded-xl border border-white/5 transition-colors hover:border-emerald-500/30">
+                  <i className="fas fa-check-circle text-emerald-500 text-lg"></i>
+                  <span className="text-sm">
+                    Actualización constante en normativa vigente
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="bg-background border border-white/5 rounded-3xl p-8 text-center shadow-[0_15px_40px_rgba(0,0,0,0.3)] relative overflow-hidden group hover:border-emerald-500/30 hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 text-emerald-500/5 text-8xl group-hover:text-emerald-500/10 transition-all duration-300">
+              <i className="fas fa-users"></i>
+            </div>
+            <div className="text-5xl font-extrabold bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent mb-2">
+              +100
+            </div>
+            <div className="text-slate-400 font-semibold uppercase tracking-wider text-sm">
+              Clientes activos
+            </div>
+          </div>
+
+          <div className="bg-background border border-white/5 rounded-3xl p-8 text-center shadow-[0_15px_40px_rgba(0,0,0,0.3)] relative overflow-hidden group hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 text-blue-500/5 text-8xl group-hover:text-blue-500/10 transition-all duration-300">
+              <i className="fas fa-chart-line"></i>
+            </div>
+            <div className="text-5xl font-extrabold bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent mb-2">
+              +28
+            </div>
+            <div className="text-slate-400 font-semibold uppercase tracking-wider text-sm">
+              Años de experiencia
+            </div>
+          </div>
+
+          <div className="bg-background border border-white/5 rounded-3xl p-8 text-center shadow-[0_15px_40px_rgba(0,0,0,0.3)] relative overflow-hidden group hover:border-emerald-500/30 hover:-translate-y-1 transition-all duration-300">
+            <div className="absolute -right-6 -top-6 text-emerald-500/5 text-8xl group-hover:text-emerald-500/10 transition-all duration-300">
+              <i className="fas fa-handshake"></i>
+            </div>
+            <div className="text-5xl font-extrabold bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent mb-2">
+              100%
+            </div>
+            <div className="text-slate-400 font-semibold uppercase tracking-wider text-sm">
+              Compromiso
             </div>
           </div>
         </div>

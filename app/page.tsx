@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { WhatsappFab } from "@/components/whatsapp-fab";
 import { Clients } from "@/components/clients";
 import { Metadata } from "next";
+import { Modalidad } from "@/components/modalidad";
 
 export const metadata: Metadata = {
   alternates: {
@@ -16,18 +17,11 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="relative">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.05] z-1"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
+    <main>
       <Navbar />
       <Hero />
       <Services />
+      <Modalidad />
       <About />
       <Clients />
       <Contact />

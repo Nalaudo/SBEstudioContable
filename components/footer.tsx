@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -55,29 +54,23 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-primary text-primary-foreground">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-6 py-12 md:flex-row md:justify-between">
-        {/* Brand */}
-        <div className="text-center md:text-left">
-          <div className="flex items-center justify-center gap-2 md:justify-start">
-            <Link
-              href="/"
-              className="flex justify-start items-center gap-2 md:w-1/3"
-            >
-              <Image
-                src="/logo-letras-blanco.svg"
-                alt="SB Estudio Contable Logo"
-                width={75}
-                height={75}
-              />
-              <div className="flex flex-col font-serif text-3xl">
-                <span>Estudio</span>
-                <span>Contable</span>
-              </div>
-            </Link>
+    <footer className="bg-surface border-t border-white/5">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-12 md:flex-row md:justify-between">
+        <Link href="#inicio" className="flex items-center gap-3">
+          <div className="text-3xl font-extrabold bg-linear-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent tracking-tighter drop-shadow-md">
+            SB
           </div>
-          <p className="mt-2 text-sm text-primary-foreground/60">
-            Gobernador Freyre 1059, Santa Fe, Argentina
+          <div className="text-sm uppercase tracking-[0.15em] font-bold text-slate-100 border-l-2 border-emerald-500 pl-3">
+            Estudio
+            <br />
+            Contable
+          </div>
+        </Link>
+
+        <div className="max-w-7xl mx-auto text-center text-sm text-slate-500">
+          <p>
+            &copy; 2026 SB Estudio Contable. Todos los derechos reservados.
+            Desarrollado con enfoque estratégico y profesional.
           </p>
         </div>
 
@@ -96,10 +89,6 @@ export function Footer() {
             </Link>
           ))}
         </div>
-      </div>
-
-      <div className="border-t border-primary-foreground/10 py-4 text-center text-xs text-primary-foreground/70">
-        {"SB Estudio Contable. Todos los derechos reservados. © 2026"}
       </div>
     </footer>
   );
