@@ -5,7 +5,6 @@ import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import { WhatsappFab } from "@/components/whatsapp-fab";
-import { Clients } from "@/components/clients";
 import { Metadata } from "next";
 import { Modalidad } from "@/components/modalidad";
 
@@ -23,7 +22,6 @@ export default function Home() {
       <Services />
       <Modalidad />
       <About />
-      <Clients />
       <Contact />
       <Footer />
       <WhatsappFab />
