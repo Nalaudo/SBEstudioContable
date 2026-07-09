@@ -100,5 +100,21 @@
   }
   body {
     @apply text-foreground;
+    cursor: none;
+  }
+
+  /* Asegura que los enlaces y botones tampoco muestren la manito por defecto */
+  a,
+  button {
+    cursor: none;
+  }
+}
+
+@layer utilities {
+  /* Esta clase se agrega vía JS cuando pasas por encima de un botón/link */
+  .cursor-hover {
+    transform: translate(-50%, -50%) scale(2.5) !important;
+    background-color: transparent !important;
+    border: 1px solid #10b981; /* border-emerald-500 */
   }
 }

@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "aos/dist/aos.css";
 import Script from "next/script";
 import { Montserrat } from "next/font/google";
+import CustomCursor from "@/components/ui/CustomCursor";
+import AosInit from "@/components/ui/AosInit";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700", "800"],
@@ -37,6 +40,8 @@ export default function RootLayout({
         className={`${montserrat.className} font-semibold font-sans antialiased`}
         suppressHydrationWarning
       >
+        <CustomCursor />
+        <AosInit />
         {children}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
