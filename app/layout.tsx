@@ -5,6 +5,7 @@ import Script from "next/script";
 import { Montserrat } from "next/font/google";
 import CustomCursor from "@/components/ui/CustomCursor";
 import AosInit from "@/components/ui/AosInit";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "600", "700", "800"],
@@ -40,6 +41,7 @@ export default function RootLayout({
         className={`${montserrat.className} font-semibold font-sans antialiased`}
         suppressHydrationWarning
       >
+        <SpeedInsights />
         <CustomCursor />
         <AosInit />
         {children}
